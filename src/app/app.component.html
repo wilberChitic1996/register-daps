@@ -1,0 +1,57 @@
+<ion-app>
+
+  <!-------------------------------------HAMBURGUESA MENU---------------------------------------->
+  <ion-menu menuId="main-menu" contentId="main">
+    <ion-content>
+      <div class="menu-header-bg"></div>  <!-- PALABRA MENU EN LA PANTALLA MENU DE LA AMBURGUESA-->
+      <div class="header-content">
+        <img src= "assets\daps\1.png" alt="">
+        <ion-label>
+          <h2>BODEGA MATERIALES</h2>
+          <P>INGENIERÍA AGRÍCOLA</P>
+        </ion-label>
+      </div>
+  <!---------------------------------LISTA DE OPCIONES MENU-------------------------------------->   
+  <div class="menu">
+
+  <ion-item>
+    <ion-button slot="start" color="light">
+    <ion-icon name="checkmark-sharp" slot="end"></ion-icon>
+    </ion-button>
+    <ion-label>Nuevo Registro</ion-label>
+  </ion-item>
+  
+  <ion-item>
+    <ion-button slot="start" color="light">
+    <ion-icon name="bar-chart-sharp" slot="end"></ion-icon>
+    </ion-button>
+    <ion-label>Inventario General</ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-button slot="start" color="light">
+    <ion-icon name="folder-open-sharp" slot="end"></ion-icon>
+    </ion-button>
+    <ion-label>Historico Registro</ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-button slot="start" color="light">
+    <ion-icon name="enter-sharp" slot="end"></ion-icon>
+    </ion-button>
+    <ion-label>Nuevo Material</ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-button slot="start" color="light">
+    <ion-icon name="key-sharp" slot="end"></ion-icon>
+    </ion-button>
+    <ion-label>Salir</ion-label>
+  </ion-item>
+</div>
+
+      </ion-content>
+  </ion-menu>
+  <!--------------------------------------------------------------------------------------------->
+  <ion-router-outlet id="main"></ion-router-outlet>
+</ion-app>

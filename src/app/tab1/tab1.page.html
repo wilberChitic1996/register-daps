@@ -1,0 +1,24 @@
+
+<ion-content class="ion-padding ion-text-center">
+                                 <!-- Ingreso de logo_Pantaleon-->                                      
+<div class="logo_panta">
+  <img src='assets\daps\2.png'  >
+</div>
+                                <!-- Tituto e ingreso de Usuario-->  
+<div class="form">                             
+<ion-item lines='none'>
+<ion-input [(ngmodel)]='Usuario'placeholder='Usuario'></ion-input>
+</ion-item> 
+                                  <!-- Tituto e ingreso de Contraseña-->
+<ion-item lines='none'> 
+  <ion-input [(ngmodel)]='Password' placeholder='Password' type='Password'></ion-input>   
+  </ion-item> 
+                                  <!-- Botón de ingresar-->
+<ion-button [routerLink]="['/tab2']"  color='success' expand='block'>Ingresar</ion-button>
+</div>
+<ion-button fill='clear'>¿Contraseña Olvidada?</ion-button>
+                                 <!-- Ingreso de logo_Pantaleon-->                                      
+<div class="logo_Daps">
+<img src= "assets\daps\1.png">
+</div>
+</ion-content>
