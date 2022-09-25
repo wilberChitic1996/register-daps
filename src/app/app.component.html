@@ -22,21 +22,21 @@
   </ion-item> -------------------------------------->
   
   <ion-item>
-    <ion-button slot="start" color="light">
+    <ion-button [routerLink]="['/tab4']" slot="start" color="light">
     <ion-icon name="bar-chart-sharp" slot="end"></ion-icon>
     </ion-button>
     <ion-label>Inventario General</ion-label>
   </ion-item>
 
   <ion-item>
-    <ion-button slot="start" color="light">
+    <ion-button [routerLink]="['/historico']" slot="start" color="light" >
     <ion-icon name="folder-open-sharp" slot="end"></ion-icon>
     </ion-button>
     <ion-label>Historico Registro</ion-label>
   </ion-item>
 
   <ion-item>
-    <ion-button slot="start" color="light">
+    <ion-button [routerLink]="['/nuevo-material']"  slot="start" color="light">
     <ion-icon name="enter-sharp" slot="end"></ion-icon>
     </ion-button>
     <ion-label>Nuevo Material</ion-label>
