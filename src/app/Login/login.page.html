@@ -16,10 +16,11 @@
         type="Password"
       ></ion-input>
     </ion-item>
-    <!-- Botón de ingresar-->
-    <ion-button [routerLink]="['/tab2']" color="success" expand="block"
-      >Ingresar</ion-button
-    >
+    <!-- Botón de ingresar
+    <ion-button [routerLink]="['/tab2']" color="success" expand="block">Ingresar</ion-button>
+    <ion-button (click) = "autenticar()" color="success" expand="block">Ingresar</ion-button>
+    <ion-button color="success" expand="block">Ingresar</ion-button>-->
+    <ion-button (click) = "autenticar()" color="success" expand="block">Ingresar</ion-button>
   </div>
   <ion-button fill="clear">¿Contraseña Olvidada?</ion-button>
   <!-- Ingreso de logo_Pantaleon-->
