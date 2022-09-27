@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { Tab4PageRoutingModule } from './tab4-routing.module';
+import { Tab4PageRoutingModule } from './inventario-routing.module';
 
-import { Tab4Page } from './tab4.page';
+import { InventarioPage } from './inventario.page';
 
 @NgModule({
   imports: [
@@ -15,6 +15,6 @@ import { Tab4Page } from './tab4.page';
     IonicModule,
     Tab4PageRoutingModule
   ],
-  declarations: [Tab4Page]
+  declarations: [InventarioPage]
 })
 export class Tab4PageModule {}

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { Tab4Page } from './tab4.page';
+import { Tab4Page } from './inventario.page';
 
 describe('Tab4Page', () => {
   let component: Tab4Page;
