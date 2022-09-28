@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Frase } from '../shared/frase';
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { observable, Observable } from "rxjs";
+import { Usuario } from '../shared/usuario';
 
 
 @Injectable({
@@ -18,5 +19,13 @@ export class APIRESTService {
     console.log("URL A CONSUMIR: "+url);
     return this.http.get<Frase>(url);
   }
+
+
+  public verificarusuario(url:string, Usuario:Usuario):Observable<any>{
+
+    return this.http.post(url, Usuario);
+  }
+
+
 
 }

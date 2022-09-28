@@ -6,14 +6,16 @@
   <!-- Tituto e ingreso de Usuario-->
   <div class="form">
     <ion-item lines="none">
-      <ion-input [(ngmodel)]="Usuario" placeholder="Usuario"></ion-input>
+      <ion-input id="usuario" type="text" placeholder="Usuario" [(ngModel)]="usuario.usuario"></ion-input>
     </ion-item>
     <!-- Tituto e ingreso de Contraseña-->
     <ion-item lines="none">
       <ion-input
-        [(ngmodel)]="Password"
+        id="password"
         placeholder="Password"
         type="Password"
+        [(ngModel)]="usuario.password"
+
       ></ion-input>
     </ion-item>
     <!-- Botón de ingresar

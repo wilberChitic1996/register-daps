@@ -1,4 +1,4 @@
-export interface Frase {
+export class Frase {
   value: string; // Contiene la frase
   icon_url: string;
   id: string; // Identificador la frase aleatoria
