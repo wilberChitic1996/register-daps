@@ -6,6 +6,8 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { APIRESTService } from './services/apirest.service';
+import { HttpClientModule } from "@angular/common/http";
 
 
 @NgModule({
@@ -13,8 +15,8 @@ import { AppComponent } from './app.component';
     AppComponent,
     ],
 
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, APIRESTService],
   bootstrap: [AppComponent],
 
 })
