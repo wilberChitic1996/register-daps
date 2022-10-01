@@ -12,7 +12,9 @@ export class HistoricoPage implements OnInit {
 
   registros:Registro[];
 
-  constructor(private apirest:APIRESTService) { }
+  constructor(private apirest:APIRESTService) { 
+  
+  }
 
   ngOnInit() {
     this.obtenerRegistros();
@@ -31,6 +33,7 @@ export class HistoricoPage implements OnInit {
       }
 
     );
+
 
   }
 

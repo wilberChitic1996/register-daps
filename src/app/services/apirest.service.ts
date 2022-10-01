@@ -71,6 +71,12 @@ private handleError<T>(operation = 'operation', result?: T) {
       return this.http.get<Registro[]>(url, this.httpOptions);
     }
 
+    obtenerNuevoMaterial(url:string): Observable<Material[]>{
+      return this.http.post<Material[]>(url, this.httpOptions);
+    }
+    obtenerNewRegister(url:string): Observable<Registro[]>{
+      return this.http.post<Registro[]>(url, this.httpOptions);
+    }
 
 
 }
