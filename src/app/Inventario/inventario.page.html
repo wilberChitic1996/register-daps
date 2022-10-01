@@ -18,7 +18,15 @@
 <ion-content padding>
 
 <ion-card-header>
-Explrorar
+  Explorar
+  <div>
+    <ion-list>
+      <ion-item *ngFor="let material of materiales">
+        {{material.Id_Material}} - {{material.Id_Tarjeta_NFC}} - {{material.Descripcion}} -{{material.Cantidad_Existente}}
+      </ion-item>
+    </ion-list>
+  </div>
+
 </ion-card-header>
 
 

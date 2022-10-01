@@ -16,4 +16,10 @@
 </ion-header>
 <ion-content>
 
+  <ion-list *ngFor="let registro of registros">
+    <ion-item>
+        {{registro.Id_Material}} - {{registro.Descripcion}} - {{registro.Id_Usuario}} - {{registro.Ficha}} - {{registro.Cantidad_Entregada}} - {{registro.Cantidad_Existente}} - {{registro.Fecha_Entrega}}
+    </ion-item>
+  </ion-list>
+
 </ion-content>

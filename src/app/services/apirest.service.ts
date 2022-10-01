@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Frase } from '../shared/frase';
 import { HttpClient , HttpHeaders} from "@angular/common/http";
 import { observable, Observable, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 import { Usuario } from '../shared/Usuario';
 import { Material } from '../shared/Material';
+import { Registro } from '../shared/Registro';
 
 
 @Injectable({
@@ -13,12 +13,11 @@ import { Material } from '../shared/Material';
 export class APIRESTService {
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json',
-    'Access-Control-Allow-Origin':'*',
-    'Access-Control-Allow-Headers':'*',
-    'Accept':'application/json, text/plain'
+    headers: new HttpHeaders({ 'Content-Type': 'application/json'
   })
   };
+
+  token:string;
 
 
 
@@ -27,19 +26,17 @@ export class APIRESTService {
   }
 
 
-
-    login(url:string , usuario: Usuario): Observable<Usuario> {
-      return this.http.post<Usuario>(url, usuario, this.httpOptions);
+    setToken(token:string):void{
+      console.log("Token recibido en el setToken: "+token);
+      this.token=token;
+      console.log('Seteo el token al servicio APIREST: '+this.token);
     }
 
-
-    //Bro, te podes basar en este metodo
-    obtenerMateriales(url:string): Observable<Material[]>{
-      return this.http.get<Material[]>(url, this.httpOptions);
+    getAuthorizationToken():string{
+      return 'Bearer ' + this.token;
     }
 
-
-    /**
+       /**
  * Handle Http operation that failed.
  * Let the app continue.
  * @param operation - name of the operation that failed
@@ -58,5 +55,22 @@ private handleError<T>(operation = 'operation', result?: T) {
     return of(result as T);
   };
 }
+
+
+    login(url:string , usuario: Usuario): Observable<Usuario> {
+      return this.http.post<Usuario>(url, usuario, this.httpOptions);
+    }
+
+
+    //Bro, te podes basar en este metodo
+    obtenerMateriales(url:string): Observable<Material[]>{
+      return this.http.get<Material[]>(url, this.httpOptions);
+    }
+
+    obtenerRegistros(url:string): Observable<Registro[]>{
+      return this.http.get<Registro[]>(url, this.httpOptions);
+    }
+
+
 
 }

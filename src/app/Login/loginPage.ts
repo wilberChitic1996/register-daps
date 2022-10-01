@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {APIRESTService} from '../services/apirest.service';
-import { Frase } from '../shared/frase';
+
 import { Params, Router } from '@angular/router';
 import { Usuario } from '../shared/Usuario';
 import { Md5 } from 'ts-md5';
@@ -41,6 +41,7 @@ export class LoginPage implements OnInit{
             // Entra aquí con respuesta del servicio correcta código http 200
             console.log("Se autentico correctamente");
             console.log(usuario);
+            this.apirest.setToken(usuario.token);
             this.router.navigate(['/menu']);
         }, err => {
             // Puedes pasarle el err en caso de que mandes el mensaje desde el

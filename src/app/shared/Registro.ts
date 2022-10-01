@@ -1,8 +1,9 @@
-export class new_register{
+export class Registro{
     Id_Usuario:number;
     Id_Material:number;
     Descripcion: string;
     Ficha:number;
-    Cantidad_Existencia:number;
-    Cantidad_de_entrega:number;
+    Cantidad_Existente:number;
+    Cantidad_Entregada:number;
+    Fecha_Entrega:string;
   }
