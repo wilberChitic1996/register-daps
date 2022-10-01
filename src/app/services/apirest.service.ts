@@ -4,6 +4,7 @@ import { HttpClient , HttpHeaders} from "@angular/common/http";
 import { observable, Observable, of } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 import { Usuario } from '../shared/Usuario';
+import { Material } from '../shared/Material';
 
 
 @Injectable({
@@ -19,23 +20,22 @@ export class APIRESTService {
   })
   };
 
-  private frase: Frase = { value: "", icon_url: "", id: "", url: "" };
+
 
   constructor(private http: HttpClient) {
     console.log('Servicio HTTP:');
   }
 
-  public getFrase(url:string): Observable<Frase>  {
-    console.log("URL A CONSUMIR: "+url);
-    return this.http.get<Frase>(url);
-  }
 
 
-    login(url:string ,usuario: Usuario): Observable<Usuario> {
-      /*return this.http.post(url, usuario, this.httpOptions).pipe(
-        catchError(this.handleError<any>('Login Failed'))
-      );*/
+    login(url:string , usuario: Usuario): Observable<Usuario> {
       return this.http.post<Usuario>(url, usuario, this.httpOptions);
+    }
+
+
+    //Bro, te podes basar en este metodo
+    obtenerMateriales(url:string): Observable<Material[]>{
+      return this.http.get<Material[]>(url, this.httpOptions);
     }
 
 

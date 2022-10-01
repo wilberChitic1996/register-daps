@@ -29,8 +29,9 @@ export class LoginPage implements OnInit{
     let url="http://127.0.0.1:8000/login";
     let password=this.usuario.Password;
     this.usuario.Password=Md5.hashStr(this.usuario.Password);
-    console.log("Password sin encriptar: "+password);
 
+
+    console.log("Password sin encriptar: "+password);
     console.log("Nombre Usuario: "+this.usuario.Usuario);
     console.log("Contraseña Encriptada: "+this.usuario.Password);
     console.log('Consumira el RestAPI: '+url);
