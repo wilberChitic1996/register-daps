@@ -4,12 +4,15 @@ import { RouteReuseStrategy } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 
+
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { APIRESTService } from './services/apirest.service';
 import { HttpClientModule } from "@angular/common/http";
+import { Md5 } from 'ts-md5/dist/esm/md5';
+
 
 
 @NgModule({
@@ -17,7 +20,8 @@ import { HttpClientModule } from "@angular/common/http";
     AppComponent,
     ],
 
-  imports: [FormsModule,ReactiveFormsModule, BrowserModule, IonicModule.forRoot(), AppRoutingModule, HttpClientModule],
+  imports: [FormsModule,ReactiveFormsModule, BrowserModule, IonicModule.forRoot(),
+    AppRoutingModule, HttpClientModule],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, APIRESTService],
   bootstrap: [AppComponent],
 

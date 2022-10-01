@@ -7,22 +7,22 @@ const routes: Routes = [
     loadChildren: () => import('./Login/login.module').then( m => m.Tab1PageModule)
   },
   {
-    path: 'tab4',
+    path: 'inventario',
     loadChildren: () => import('./Inventario/inventario.module').then( m => m.Tab4PageModule)
   },
 
   {
-    path: 'tab3',
+    path: 'newregister',
     loadChildren: () => import('./NewRegister/newregister.module').then( m => m.Tab3PageModule)
   },
 
   {
-    path: 'tab2',
+    path: 'menu',
     loadChildren: () => import('./Menu/menu.module').then( m => m.Tab2PageModule)
   },
 
   {
-    path: 'tab1',
+    path: 'login',
     loadChildren: () => import('./Login/login.module').then( m => m.Tab1PageModule)
   },
   {

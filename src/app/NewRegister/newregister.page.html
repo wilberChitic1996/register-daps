@@ -1,8 +1,8 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="warning">
-    
+
     <ion-buttons slot="end">
-      <ion-button [routerLink]="['/tab2']" (click) ="onClick()">
+      <ion-button [routerLink]="['/menu']" >
         <ion-icon slot="icon-only" name="home">
         </ion-icon>
       </ion-button>
@@ -11,13 +11,13 @@
     <div class="Titulo_1">
       <h2>NUEVO REGISTRO</h2>
   </div>
-  
+
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-header>
-    
+
   <div class="Menu_Registro">
 
       <ion-list>
@@ -26,11 +26,11 @@
           <ion-label></ion-label>
         </ion-item>
       </ion-list>
-                           
+
       <ion-item lines='none'>
       <ion-input [(ngmodel)]='Usuario'placeholder='FICHA'></ion-input>
       </ion-item>
-  
+
     <ion-list>
       <ion-item>
         <ion-badge color="warning">ID_MATERIAL: </ion-badge>
@@ -51,7 +51,7 @@
         <ion-label></ion-label>
       </ion-item>
     </ion-list>
-                           
+
     <ion-item lines='none'>
     <ion-input [(ngmodel)]='Usuario'placeholder='CANTIDAD_ENTREGAR:'></ion-input>
     </ion-item>
