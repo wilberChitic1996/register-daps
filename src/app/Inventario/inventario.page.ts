@@ -20,4 +20,11 @@ export class InventarioPage implements OnInit {
     this.materiales=this.materialesservice.materiales;
   }
 
+  ionViewWillEnter(){
+    this.materialesservice.obtenerMateriales();
+  }
+
+  ionViewDidEnter(){
+    this.materiales=this.materialesservice.materiales;
+  }
 }

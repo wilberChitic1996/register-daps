@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
+import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
 import { APIRESTService } from '../apirest.service';
+import { Router } from '@angular/router';
+import { Observable } from "rxjs";
+import { catchError } from 'rxjs/operators';
+
 
 
 @Injectable({
@@ -8,7 +12,8 @@ import { APIRESTService } from '../apirest.service';
 })
 export class TokenInterceptorService implements HttpInterceptor{
 
-  constructor(private apirest:APIRESTService) { }
+  constructor(private apirest:APIRESTService,
+    private router:Router) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     // Get the auth token from the service.
@@ -21,6 +26,21 @@ export class TokenInterceptorService implements HttpInterceptor{
     });
 
     // send cloned request with header to the next handler.
-    return next.handle(authReq);
+    return next.handle(authReq).pipe(
+      catchError(err => {
+          // onError
+          console.log(err);
+          if (err instanceof HttpErrorResponse) {
+              console.log(err.status);
+              console.log(err.statusText);
+              if (err.status === 401) {
+                this.router.navigate(['/login']);
+              }
+          }
+          return Observable.throw(err);
+        }
+      )
+    );
+
   }
 }

@@ -59,4 +59,11 @@ export class HistoricoPage implements OnInit {
     });
   }
 
+  ionViewWillEnter(){
+    this.registroservice.obtenerRegistros();
+  }
+
+  ionViewDidEnter(){
+    this.obtenerRegistros();
+  }
 }
