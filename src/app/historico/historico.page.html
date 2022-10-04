@@ -18,15 +18,17 @@
 
   <ion-list *ngFor="let registro of registros">
     <ion-item>
-      <label>
-      <h8>Id_Registro: {{registro.Id_Usuario}}<br></h8>
-      <h8>Id_Material: {{registro.Id_Material}}<br></h8> 
-      <h8>Descripcion: {{registro.Descripcion}}<br></h8>
-      <h8>Ficha: {{registro.Ficha}}<br></h8>
-      <h8>Cantidad_Entregada: {{registro.Cantidad_Entregada}}<br></h8>
-      <h8>Cantidad_Existente: {{registro.Cantidad_Existente}}<br></h8>
-      <h8>Fecha_Entrega: {{registro.Fecha_Entrega}}<br></h8>
-      </label>
+      <ion-label>
+
+      <h6>Id Registro: {{registro.Id_Registro}}<br></h6>
+      <h6>Id Material: {{registro.Id_Material}}<br></h6>
+      <h6>Descripcion: {{registro.Descripcion}}<br></h6>
+      <h6>Ficha: {{registro.Ficha}}<br></h6>
+      <h6>Empleado: {{registro.Empleado}}<br></h6>
+      <h6>Cantidad Entregada: {{registro.Cantidad_Entregada}}<br></h6>
+      <h6>Cantidad Existente: {{registro.Cantidad_Existente}}<br></h6>
+      <h6>Fecha de Entrega: {{registro.Fecha_Entrega}}<br></h6>
+      </ion-label>
     </ion-item>
   </ion-list>
 

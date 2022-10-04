@@ -5,6 +5,7 @@ import { catchError, map, tap } from "rxjs/operators";
 import { Usuario } from '../shared/Usuario';
 import { Material } from '../shared/Material';
 import { Registro } from '../shared/Registro';
+import { Empleado } from '../shared/Empleado';
 
 
 @Injectable({
@@ -18,6 +19,8 @@ export class APIRESTService {
   };
 
   token:string;
+
+  url:string="http://172.24.178.155/";
 
 
 
@@ -36,46 +39,44 @@ export class APIRESTService {
       return 'Bearer ' + this.token;
     }
 
-       /**
- * Handle Http operation that failed.
- * Let the app continue.
- * @param operation - name of the operation that failed
- * @param result - optional value to return as the observable result
- */
-private handleError<T>(operation = 'operation', result?: T) {
-  return (error: any): Observable<T> => {
-
-    // TODO: send the error to remote logging infrastructure
-    console.error(error); // log to console instead
-
-    // TODO: better job of transforming error for user consumption
-    console.log(`${operation} failed: ${error.message}`);
-
-    // Let the app keep running by returning an empty result.
-    return of(result as T);
-  };
-}
-
-
-    login(url:string , usuario: Usuario): Observable<Usuario> {
-      return this.http.post<Usuario>(url, usuario, this.httpOptions);
-    }
 
 
     //Bro, te podes basar en este metodo
     obtenerMateriales(url:string): Observable<Material[]>{
+      url=this.url+url;
       return this.http.get<Material[]>(url, this.httpOptions);
     }
 
     obtenerRegistros(url:string): Observable<Registro[]>{
+      url=this.url+url;
       return this.http.get<Registro[]>(url, this.httpOptions);
     }
 
-    obtenerNuevoMaterial(url:string): Observable<Material[]>{
-      return this.http.post<Material[]>(url, this.httpOptions);
+    obtenerEmpleados(url:string): Observable<Empleado[]>{
+      url=this.url+url;
+      return this.http.get<Empleado[]>(url, this.httpOptions);
     }
-    obtenerNewRegister(url:string): Observable<Registro[]>{
-      return this.http.post<Registro[]>(url, this.httpOptions);
+
+    obtenerUsuarios(url:string): Observable<Usuario[]>{
+      url=this.url+url;
+      return this.http.get<Usuario[]>(url, this.httpOptions);
+    }
+
+    login(url:string , usuario: Usuario): Observable<Usuario> {
+      url=this.url+url;
+      return this.http.post<Usuario>(url, usuario, this.httpOptions);
+    }
+
+
+
+    enviarNuevoMaterial(url:string, material:Material): Observable<Material>{
+      url=this.url+url;
+      return this.http.post<Material>(url, material, this.httpOptions);
+    }
+
+    enviarNewRegister(url:string, registro:Registro): Observable<Registro>{
+      url=this.url+url;
+      return this.http.post<Registro>(url, registro, this.httpOptions);
     }
 
 

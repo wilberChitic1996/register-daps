@@ -16,7 +16,7 @@ export class LoginPage implements OnInit{
 
   private url = 'https://api.chucknorris.io/jokes/random'; // URL to web api
 
-  usuario:Usuario={Usuario:"", Password:"", token:""};
+  usuario:Usuario={Id_Usuario:0, Usuario:"", Password:"", token:""};
 
   constructor(private apirest:APIRESTService, private router:Router) {
   }
@@ -26,7 +26,7 @@ export class LoginPage implements OnInit{
   }
 
   autenticar(){
-    let url="http://127.0.0.1:8000/login";
+    let url="login";
     let password=this.usuario.Password;
     this.usuario.Password=Md5.hashStr(this.usuario.Password);
 
@@ -42,17 +42,16 @@ export class LoginPage implements OnInit{
             console.log("Se autentico correctamente");
             console.log(usuario);
             this.apirest.setToken(usuario.token);
+            this.usuario.Password="";
             this.router.navigate(['/menu']);
         }, err => {
             // Puedes pasarle el err en caso de que mandes el mensaje desde el
             console.log('Las credenciales no son correctas');
             console.log(err);
+            this.usuario.Password=password;
         }
     );
 
-    this.usuario.Password=password;
-
-    //Buscar la manera, de que si el usuario corresponde, te enrute a la siguiente pagina que es la del menu.
   }
 
 

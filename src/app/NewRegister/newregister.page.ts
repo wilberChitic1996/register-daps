@@ -9,7 +9,7 @@ import { Registro } from '../shared/Registro';
 })
 export class NewRegisterPage {
 
-  NewRegistros:Registro[];
+  registro:Registro;
 
   constructor(private apirest:APIRESTService) {}
 
@@ -18,11 +18,13 @@ export class NewRegisterPage {
   }
 
   obtenerNewRegister():void {
-    let url='http://127.0.0.1:8000/registro';
-    this.apirest.obtenerNewRegister(url).subscribe(
+    let url='registro';
+    this.apirest.enviarNewRegister(url, this.registro).subscribe(
       registro=>{
         console.log(registro);
-        this.NewRegistros=registro;
+        //Insertar a la nueva lista de registros
+        //Lo hará Soporte
+
       },
       error=>{
         console.log('No pudo guardar registro');
