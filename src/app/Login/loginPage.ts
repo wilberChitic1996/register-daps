@@ -48,7 +48,7 @@ export class LoginPage implements OnInit{
             // Puedes pasarle el err en caso de que mandes el mensaje desde el
             console.log('Las credenciales no son correctas');
             console.log(err);
-            this.usuario.Password=password;
+            this.usuario.Password="";
         }
     );
 
