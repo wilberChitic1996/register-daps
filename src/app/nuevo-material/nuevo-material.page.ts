@@ -9,13 +9,15 @@ import { Material } from '../shared/Material';
 })
 export class NuevoMaterialPage implements OnInit {
 
-  materiales:Material[];
+  material:Material;
 
-  constructor(private apirest:APIRESTService) { 
-    let url="http://127.0.0.1:8000/material";
-    this.apirest.obtenerNuevoMaterial(url).subscribe(
-      materiales =>{this.materiales = materiales;
-        console.log(this.materiales);
+  constructor(private apirest:APIRESTService) {
+    let url="material";
+    this.apirest.enviarNuevoMaterial(url, this.material).subscribe(
+      materiales =>{
+        console.log(materiales);
+        //Esto de empujar a la lista de Materiales lo hará Soporte
+
       }, err => {
         // Puedes pasarle el err en caso de que mandes el mensaje desde el
         console.log('Material no ingresado');
