@@ -22,8 +22,10 @@ export class MenuPage implements OnInit {
       console.log(this.registroservice.registros);
       console.log(this.empleadoservice.empleados);
       console.log(this.usuarioservice.usuarios);*/
+
   }
   ngOnInit(): void {
+    console.log("Se inicializo el menu");
       this.materialservice.obtenerMateriales();
       this.registroservice.obtenerRegistros();
       this.empleadoservice.obtenerEmpleados();

@@ -8,10 +8,10 @@ import { Registro } from '../shared/Registro';
 import { Empleado } from '../shared/Empleado';
 
 import { Platform } from '@ionic/angular';
-import { of } from "rxjs";
+
 
 import { CapacitorHttp, HttpResponse } from '@capacitor/core';
-import { HTTPResponse } from '@awesome-cordova-plugins/http/ngx';
+
 
 
 @Injectable({
@@ -73,7 +73,7 @@ export class APIRESTService {
           return of(usuario);
         });*/
         return from(CapacitorHttp.post(options))
-        .pipe(map((response:HTTPResponse)=>{
+        .pipe(map((response:HttpResponse)=>{
           console.log("Logro consumir el restapi nativamente");
           console.log(response);
           usuario=response.data;
@@ -110,8 +110,8 @@ export class APIRESTService {
 
         };
 
-        let materiales:Material[];
-        CapacitorHttp.get(options).then(response=>{
+        let materiales:Material[]=[];
+        /*CapacitorHttp.get(options).then(response=>{
           console.log("Logro consumir el restapi nativamente");
           console.log(response);
           console.log("Estatus: "+response.status);
@@ -121,7 +121,15 @@ export class APIRESTService {
 
         });
         console.log("Materiales Obtenidos: "+materiales.length);
-        return of(materiales);
+        return of(materiales);*/
+        return from(CapacitorHttp.get(options))
+        .pipe(map((response:HttpResponse)=>{
+          console.log("Logro consumir el restapi nativamente");
+          console.log(response);
+          materiales=response.data;
+          console.log("Materiales: "+materiales.length);
+          return materiales;
+        }));
       }else{
         return this.http.get<Material[]>(url, this.httpOptions).pipe(
           catchError(err => {
@@ -150,8 +158,8 @@ export class APIRESTService {
 
         };
 
-        let registros:Registro[];
-        CapacitorHttp.get(options).then(response=>{
+        let registros:Registro[]=[];
+        /*CapacitorHttp.get(options).then(response=>{
           console.log("Logro consumir el restapi nativamente");
           console.log(response);
           console.log("Estatus: "+response.status);
@@ -161,7 +169,15 @@ export class APIRESTService {
 
         });
         console.log("Registros Obtenidos: "+registros.length);
-        return of(registros);
+        return of(registros);*/
+        return from(CapacitorHttp.get(options))
+        .pipe(map((response:HttpResponse)=>{
+          console.log("Logro consumir el restapi nativamente");
+          console.log(response);
+          registros=response.data;
+          console.log("Registros: "+registros.length);
+          return registros;
+        }));
       }else{
         return this.http.get<Registro[]>(url, this.httpOptions).pipe(
           catchError(err => {
@@ -188,8 +204,8 @@ export class APIRESTService {
 
         };
 
-        let empleados:Empleado[];
-        CapacitorHttp.get(options).then(response=>{
+        let empleados:Empleado[]=[];
+        /*CapacitorHttp.get(options).then(response=>{
           console.log("Logro consumir el restapi nativamente");
           console.log(response);
           console.log("Estatus: "+response.status);
@@ -199,7 +215,15 @@ export class APIRESTService {
 
         });
         console.log("Empleados Obtenidos: "+empleados.length);
-        return of(empleados);
+        return of(empleados);*/
+        return from(CapacitorHttp.get(options))
+        .pipe(map((response:HttpResponse)=>{
+          console.log("Logro consumir el restapi nativamente");
+          console.log(response);
+          empleados=response.data;
+          console.log("Empleados: "+empleados.length);
+          return empleados;
+        }));
       }else{
 
       }
@@ -226,8 +250,8 @@ export class APIRESTService {
 
         };
 
-        let usuarios:Usuario[];
-        CapacitorHttp.get(options).then(response=>{
+        let usuarios:Usuario[]=[];
+        /*CapacitorHttp.get(options).then(response=>{
           console.log("Logro consumir el restapi nativamente");
           console.log(response);
           console.log("Estatus: "+response.status);
@@ -237,7 +261,15 @@ export class APIRESTService {
 
         });
         console.log("Usuarios Obtenidos: "+usuarios.length);
-        return of(usuarios);
+        return of(usuarios);*/
+        return from(CapacitorHttp.get(options))
+        .pipe(map((response:HttpResponse)=>{
+          console.log("Logro consumir el restapi nativamente");
+          console.log(response);
+          usuarios=response.data;
+          console.log("Usuarios: "+usuarios.length);
+          return usuarios;
+        }));
       }else{
         return this.http.get<Usuario[]>(url, this.httpOptions).pipe(
           catchError(err => {
@@ -268,7 +300,7 @@ export class APIRESTService {
         };
 
 
-        CapacitorHttp.post(options).then(response=>{
+        /*CapacitorHttp.post(options).then(response=>{
           console.log("Logro consumir el restapi nativamente");
           console.log(response);
           console.log("Estatus: "+response.status);
@@ -278,7 +310,15 @@ export class APIRESTService {
           console.log("Material: "+material.Descripcion);
         });
         console.log("Material2: "+material.Descripcion);
-        return of(material);
+        return of(material);*/
+        return from(CapacitorHttp.post(options))
+        .pipe(map((response:HttpResponse)=>{
+          console.log("Logro consumir el restapi nativamente");
+          console.log(response);
+          material=response.data;
+          console.log("Material: "+material.Descripcion);
+          return material;
+        }));
       }else{
 
       }
@@ -306,7 +346,7 @@ export class APIRESTService {
         };
 
 
-        CapacitorHttp.post(options).then(response=>{
+        /*CapacitorHttp.post(options).then(response=>{
           console.log("Logro consumir el restapi nativamente");
           console.log(response);
           console.log("Estatus: "+response.status);
@@ -316,7 +356,15 @@ export class APIRESTService {
           console.log("New Registro: "+registro.Descripcion);
         });
         console.log("New Registro2: "+registro.Descripcion);
-        return of(registro);
+        return of(registro);*/
+        return from(CapacitorHttp.post(options))
+        .pipe(map((response:HttpResponse)=>{
+          console.log("Logro consumir el restapi nativamente");
+          console.log(response);
+          registro=response.data;
+          console.log("Registro: "+registro.Descripcion);
+          return registro;
+        }));
       }else{
         return this.http.post<Registro>(url, registro, this.httpOptions).pipe(
           catchError(err => {
