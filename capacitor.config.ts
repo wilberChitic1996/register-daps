@@ -1,9 +1,14 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.DAPS',
+  appId: 'com.pantaleon.daps',
   appName: 'DAPS',
   webDir: 'www',
+  plugins: {
+    CapacitorHttp: {
+      enabled: true,
+    },
+  },
   bundledWebRuntime: false
 };
 

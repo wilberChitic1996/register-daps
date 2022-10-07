@@ -8,8 +8,9 @@ import { Registro } from '../shared/Registro';
 import { Empleado } from '../shared/Empleado';
 
 import { Platform } from '@ionic/angular';
-import { HTTP } from '@awesome-cordova-plugins/http/ngx';
 import { of } from "rxjs";
+
+import { CapacitorHttp, HttpResponse } from '@capacitor/core';
 
 
 @Injectable({
@@ -28,8 +29,7 @@ export class APIRESTService {
 
 
 
-  constructor(private http: HttpClient, public platform: Platform
-    ,private httpnative:HTTP) {
+  constructor(private http: HttpClient, public platform: Platform) {
     console.log('Servicio HTTP:');
   }
 
@@ -42,6 +42,47 @@ export class APIRESTService {
 
     getAuthorizationToken():string{
       return 'Bearer ' + this.token;
+    }
+
+    login(url:string , usuario: Usuario): Observable<Usuario> {
+      url=this.url+url;
+      console.log("Url: "+url);
+      console.log("Usuario: "+usuario.Usuario+"  "+usuario.Password);
+
+      if (this.platform.is('hybrid')) {
+
+        const options = {
+          url: url,
+          headers: { 'Content-Type': 'application/json',
+          'Authorization':this.getAuthorizationToken()
+          },
+          data: usuario,
+        };
+
+
+        CapacitorHttp.post(options).then(response=>{
+          console.log("Logro consumir el restapi nativamente");
+          console.log(response);
+          console.log("Estatus: "+response.status);
+          console.log("Headers: "+response.headers);
+          console.log("Data: "+response.data);
+          usuario=response.data;
+          console.log("Usuario: "+usuario.token);
+        });
+        console.log("Usuario2: "+usuario.token);
+        return of(usuario);
+      }else{
+        return this.http.post<Usuario>(url, usuario, this.httpOptions).pipe(
+          catchError(err => {
+              // onError
+              console.log("Error capturado al Logearse en el servidor");
+              console.log(err.json);
+              return throwError(err);
+            }
+          )
+        );
+      }
+
     }
 
 
@@ -99,45 +140,6 @@ export class APIRESTService {
       );
     }
 
-    login(url:string , usuario: Usuario): Observable<Usuario> {
-      url=this.url+url;
-      console.log("Url: "+url);
-      console.log("Usuario: "+usuario.Usuario+"  "+usuario.Password);
-      let usuarioAuxiliar;
-      if (this.platform.is('hybrid')) {
-
-        this.httpnative.post(url, usuario, this.httpOptions).then(data => {
-          console.log(data.status);
-          console.log(data.data); // data received by server
-          console.log(data.headers);
-          usuarioAuxiliar=data.data;
-          usuario=data.data;
-          console.log("Usuario obtenido nativamente: "+usuario.Usuario+"  "+usuario.Password);
-          console.log("Usuario obtenido nativamente: "+usuario.token);
-        })
-        .catch(error => {
-          console.log("Error capturado al Logearse en el servidor Nativamente");
-          console.log(error.status);
-          console.log(error.error); // error message as string
-          console.log(error.headers);
-
-        });
-
-        return of(usuarioAuxiliar);
-
-      }else{
-        return this.http.post<Usuario>(url, usuario, this.httpOptions).pipe(
-          catchError(err => {
-              // onError
-              console.log("Error capturado al Logearse en el servidor");
-              console.log(err.json);
-              return throwError(err);
-            }
-          )
-        );
-      }
-
-    }
 
 
 

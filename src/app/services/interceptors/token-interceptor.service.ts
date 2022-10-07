@@ -27,8 +27,7 @@ export class TokenInterceptorService implements HttpInterceptor{
       headers: req.headers.set('Authorization', authToken)
     });
 
-    //Seteamos el header nativo
-    this.httpnative.setHeader(req.url, "Authorization", authToken);
+    
 
     // send cloned request with header to the next handler.
     return next.handle(authReq).pipe(
