@@ -12,6 +12,13 @@ export class NuevoMaterialPage implements OnInit {
   material:Material;
 
   constructor(private apirest:APIRESTService) {
+
+  }
+
+  ngOnInit() {
+  }
+
+  sendMaterial():void{
     let url="material";
     this.apirest.enviarNuevoMaterial(url, this.material).subscribe(
       materiales =>{
@@ -26,7 +33,5 @@ export class NuevoMaterialPage implements OnInit {
     );
   }
 
-  ngOnInit() {
-  }
 
 }
