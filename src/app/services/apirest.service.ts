@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient , HttpHeaders} from "@angular/common/http";
 import { Observable, throwError, from  } from "rxjs";
-import { catchError } from "rxjs/operators";
+import { catchError, map } from "rxjs/operators";
 import { Usuario } from '../shared/Usuario';
 import { Material } from '../shared/Material';
 import { Registro } from '../shared/Registro';
@@ -11,6 +11,7 @@ import { Platform } from '@ionic/angular';
 import { of } from "rxjs";
 
 import { CapacitorHttp, HttpResponse } from '@capacitor/core';
+import { HTTPResponse } from '@awesome-cordova-plugins/http/ngx';
 
 
 @Injectable({
@@ -71,7 +72,14 @@ export class APIRESTService {
           console.log("Usuario2: "+usuario.token);
           return of(usuario);
         });*/
-        return from(CapacitorHttp.post(options));
+        return from(CapacitorHttp.post(options))
+        .pipe(map((response:HTTPResponse)=>{
+          console.log("Logro consumir el restapi nativamente");
+          console.log(response);
+          usuario=response.data;
+          console.log("Usuario: "+usuario.token);
+          return usuario;
+        }));
 
       }else{
         return this.http.post<Usuario>(url, usuario, this.httpOptions).pipe(
