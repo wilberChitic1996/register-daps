@@ -30,10 +30,20 @@ export class APIRESTService {
 
   token:string;
 
+  /**
+   * Url base del servidor donde se encuentran nuestros endpoints
+   */
   url:string="http://172.24.178.155/";
   //url:string="http://172.22.2.78/";
 
 
+  /**
+   * Constructor por medio del se inyectan los servicios que utilizan en esta clase
+   * @param http Es el servicio por medio del cual se consumen los servicios rest en la Web
+   * @param platform Es el servicio que nos indica sobre que plataforma esta corriendo la aplicación
+   * @param alertController El servicio de alerta, para mostras mensajes importantes al usuario
+   * @param router Es el servicio que nos permite enrutar nuestra aplicación a una pantalla en especifico
+   */
 
   constructor(private http: HttpClient, public platform: Platform
     , private alertController:AlertController,
@@ -41,6 +51,7 @@ export class APIRESTService {
     console.log('Servicio HTTP:');
   }
 
+  
     async presentAlert() {
       const alert = await this.alertController.create({
         header: 'Sesión Caducada',
