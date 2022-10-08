@@ -26,7 +26,8 @@ export class APIRESTService {
 
   token:string;
 
-  url:string="http://172.24.178.155/";
+  //url:string="http://172.24.178.155/";
+  url:string="http://172.22.2.78/";
 
 
 

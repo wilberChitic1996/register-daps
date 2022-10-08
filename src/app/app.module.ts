@@ -14,7 +14,7 @@ import { TokenInterceptorService } from './services/interceptors/token-intercept
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { Md5 } from 'ts-md5/dist/esm/md5';
 
-import { HTTP } from "@awesome-cordova-plugins/http/ngx"
+
 
 
 
@@ -31,8 +31,8 @@ import { HTTP } from "@awesome-cordova-plugins/http/ngx"
       useClass: TokenInterceptorService,
       multi: true
     },
-    APIRESTService,
-    HTTP],
+    APIRESTService
+    ],
   bootstrap: [AppComponent],
 
 })

@@ -5,7 +5,6 @@ import { Router } from '@angular/router';
 import { Observable, throwError } from "rxjs";
 import { catchError } from 'rxjs/operators';
 
-import { HTTP } from '@awesome-cordova-plugins/http/ngx';
 
 
 
@@ -15,7 +14,7 @@ import { HTTP } from '@awesome-cordova-plugins/http/ngx';
 export class TokenInterceptorService implements HttpInterceptor{
 
   constructor(private apirest:APIRESTService,
-    private router:Router, private httpnative:HTTP) { }
+    private router:Router,) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     // Get the auth token from the service.
@@ -27,7 +26,7 @@ export class TokenInterceptorService implements HttpInterceptor{
       headers: req.headers.set('Authorization', authToken)
     });
 
-    
+
 
     // send cloned request with header to the next handler.
     return next.handle(authReq).pipe(
