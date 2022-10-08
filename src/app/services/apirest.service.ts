@@ -7,10 +7,12 @@ import { Material } from '../shared/Material';
 import { Registro } from '../shared/Registro';
 import { Empleado } from '../shared/Empleado';
 
+import { AlertController } from '@ionic/angular';
 import { Platform } from '@ionic/angular';
 
 
 import { CapacitorHttp, HttpResponse } from '@capacitor/core';
+import { Router } from '@angular/router';
 
 
 
@@ -31,10 +33,21 @@ export class APIRESTService {
 
 
 
-  constructor(private http: HttpClient, public platform: Platform) {
+  constructor(private http: HttpClient, public platform: Platform
+    , private alertController:AlertController,
+    private router:Router) {
     console.log('Servicio HTTP:');
   }
 
+    async presentAlert() {
+      const alert = await this.alertController.create({
+        header: 'Sesión Caducada',
+        //subHeader: 'Important message',
+        message: 'Vuelva a iniciar sesión por favor!',
+        buttons: ['OK'],
+      });
+      await alert.present();
+    }
 
     setToken(token:string):void{
       console.log("Token recibido en el setToken: "+token);
@@ -125,6 +138,11 @@ export class APIRESTService {
         return of(materiales);*/
         return from(CapacitorHttp.get(options))
         .pipe(map((response:HttpResponse)=>{
+          if (response.status === 401) {
+            console.log("Token caducado");
+            this.presentAlert();
+            this.router.navigate(['/login']);
+          }
           console.log("Logro consumir el restapi nativamente");
           console.log(response);
           materiales=response.data;
@@ -173,6 +191,11 @@ export class APIRESTService {
         return of(registros);*/
         return from(CapacitorHttp.get(options))
         .pipe(map((response:HttpResponse)=>{
+          if (response.status === 401) {
+            console.log("Token caducado");
+            this.presentAlert();
+            this.router.navigate(['/login']);
+          }
           console.log("Logro consumir el restapi nativamente");
           console.log(response);
           registros=response.data;
@@ -219,6 +242,11 @@ export class APIRESTService {
         return of(empleados);*/
         return from(CapacitorHttp.get(options))
         .pipe(map((response:HttpResponse)=>{
+          if (response.status === 401) {
+            console.log("Token caducado");
+            this.presentAlert();
+            this.router.navigate(['/login']);
+          }
           console.log("Logro consumir el restapi nativamente");
           console.log(response);
           empleados=response.data;
@@ -265,6 +293,11 @@ export class APIRESTService {
         return of(usuarios);*/
         return from(CapacitorHttp.get(options))
         .pipe(map((response:HttpResponse)=>{
+          if (response.status === 401) {
+            console.log("Token caducado");
+            this.presentAlert();
+            this.router.navigate(['/login']);
+          }
           console.log("Logro consumir el restapi nativamente");
           console.log(response);
           usuarios=response.data;
@@ -314,6 +347,11 @@ export class APIRESTService {
         return of(material);*/
         return from(CapacitorHttp.post(options))
         .pipe(map((response:HttpResponse)=>{
+          if (response.status === 401) {
+            console.log("Token caducado");
+            this.presentAlert();
+            this.router.navigate(['/login']);
+          }
           console.log("Logro consumir el restapi nativamente");
           console.log(response);
           material=response.data;
@@ -360,6 +398,11 @@ export class APIRESTService {
         return of(registro);*/
         return from(CapacitorHttp.post(options))
         .pipe(map((response:HttpResponse)=>{
+          if (response.status === 401) {
+            console.log("Token caducado");
+            this.presentAlert();
+            this.router.navigate(['/login']);
+          }
           console.log("Logro consumir el restapi nativamente");
           console.log(response);
           registro=response.data;
