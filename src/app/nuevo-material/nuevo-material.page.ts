@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { APIRESTService } from '../services/apirest.service';
 import { Material } from '../shared/Material';
 import { angularMath } from 'angular-ts-math/dist/angular-ts-math/angular-ts-math';
+import { MaterialService } from '../services/proveedores/material.service';
+import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-nuevo-material',
@@ -10,20 +13,36 @@ import { angularMath } from 'angular-ts-math/dist/angular-ts-math/angular-ts-mat
 })
 export class NuevoMaterialPage implements OnInit {
 
-  material:Material;
+  material:Material={Id_Material:0, Descripcion:"", Cantidad_Existente:0, Id_Tarjeta_NFC:0};
 
-  constructor(private apirest:APIRESTService) {
+  constructor(private apirest:APIRESTService, private MaterialService:MaterialService
+    , private alertController:AlertController, private router:Router) {
 
   }
 
   ngOnInit() {
+
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Material Ingresado',
+      //subHeader: 'Important message',
+      //message: 'Vuelva a iniciar sesión por favor!',
+      buttons: ['OK'],
+    });
+    await alert.present();
   }
 
   sendMaterial():void{
-    let url="material";
+    let url="material/guardar";
     this.apirest.enviarNuevoMaterial(url, this.material).subscribe(
       materiales =>{
         console.log(materiales);
+        this.MaterialService.materiales.push(this.material);
+        this.presentAlert();
+        this.router.navigate(['/menu']);
+
         //Esto de empujar a la lista de Materiales lo hará Soporte
 
       }, err => {
@@ -35,7 +54,7 @@ export class NuevoMaterialPage implements OnInit {
   }
 
   generarNFC():void{
-    this.material.Id_Tarjeta_NFC=angularMath.getIntegerRandomRange(1,4);
+    this.material.Id_Tarjeta_NFC=this.MaterialService.materiales.length+1;
   }
 
 }
