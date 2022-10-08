@@ -21,26 +21,28 @@
 
       <ion-list>
       <ion-item>
-      <ion-input [(ngmodel)]='Usuario'placeholder='ID_MATERIAL'></ion-input>
+      <ion-input [(ngModel)]="material.Id_Material" placeholder='ID_MATERIAL'></ion-input>
       </ion-item>
     </ion-list>
 
       <ion-list>
         <ion-item>
-        <ion-input [(ngmodel)]='Descripcion_Material'placeholder='DESCRIPCION'></ion-input>
+        <ion-input  [(ngModel)]='material.Descripcion' placeholder='DESCRIPCION'></ion-input>
         </ion-item>
       </ion-list>
 
       <ion-list>
         <ion-item>
-        <ion-input type="number" [(ngmodel)]='CANTIDAD_EXISTENTE'placeholder='CANTIDAD EXISTENCIA'></ion-input>
+        <ion-input type="number"  [(ngModel)]='material.Cantidad_Existente' placeholder='CANTIDAD EXISTENCIA'></ion-input>
         </ion-item>
       </ion-list>
 
     <ion-list>
       <ion-item>
-        <ion-badge color="dark">ID_NFC: </ion-badge>
-        <ion-label></ion-label>
+        <ion-badge color="dark" (click)="generarNFC()">ID_NFC: </ion-badge>
+        <ion-label>
+          {{material.Id_Tarjeta_NFC}}
+        </ion-label>
       </ion-item>
     </ion-list>
 
@@ -49,7 +51,7 @@
   </ion-header>
 
 <div class="Boton_Guardar">
-  <ion-button color="danger">
+  <ion-button color="danger" (click)="sendMaterial()">
     GUARDAR
     <ion-icon name="cloud-upload-outline"></ion-icon>
   </ion-button>

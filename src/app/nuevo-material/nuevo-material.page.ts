@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { APIRESTService } from '../services/apirest.service';
 import { Material } from '../shared/Material';
+import { angularMath } from 'angular-ts-math/dist/angular-ts-math/angular-ts-math';
 
 @Component({
   selector: 'app-nuevo-material',
@@ -33,5 +34,8 @@ export class NuevoMaterialPage implements OnInit {
     );
   }
 
+  generarNFC():void{
+    this.material.Id_Tarjeta_NFC=angularMath.getIntegerRandomRange(1,4);
+  }
 
 }
