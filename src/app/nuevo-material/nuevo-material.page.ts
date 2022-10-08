@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { APIRESTService } from '../services/apirest.service';
 import { Material } from '../shared/Material';
-import { angularMath } from 'angular-ts-math/dist/angular-ts-math/angular-ts-math';
 import { MaterialService } from '../services/proveedores/material.service';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';

@@ -30,8 +30,8 @@ export class APIRESTService {
 
   token:string;
 
-  //url:string="http://172.24.178.155/";
-  url:string="http://172.22.2.78/";
+  url:string="http://172.24.178.155/";
+  //url:string="http://172.22.2.78/";
 
 
 
@@ -76,23 +76,13 @@ export class APIRESTService {
           data: usuario,
         };
 
-
-        /*CapacitorHttp.post(options).then(response=>{
-          console.log("Logro consumir el restapi nativamente");
-          console.log(response);
-          console.log("Estatus: "+response.status);
-          console.log("Headers: "+response.headers);
-          console.log("Data: "+response.data);
-          usuario=response.data;
-          console.log("Usuario: "+usuario.token);
-          console.log("Usuario2: "+usuario.token);
-          return of(usuario);
-        });*/
         return from(CapacitorHttp.post(options))
         .pipe(map((response:HttpResponse)=>{
           console.log("Logro consumir el restapi nativamente");
           console.log(response);
+          usuario.Password="";
           usuario=response.data;
+          this.usuario=usuario;
           console.log("Usuario: "+usuario.token);
           return usuario;
         }));
@@ -110,8 +100,6 @@ export class APIRESTService {
       }
 
     }
-
-
 
     //Bro, te podes basar en este metodo
     obtenerMateriales(url:string): Observable<Material[]>{
@@ -335,18 +323,6 @@ export class APIRESTService {
           data: material,
         };
 
-
-        /*CapacitorHttp.post(options).then(response=>{
-          console.log("Logro consumir el restapi nativamente");
-          console.log(response);
-          console.log("Estatus: "+response.status);
-          console.log("Headers: "+response.headers);
-          console.log("Data: "+response.data);
-          material=response.data;
-          console.log("Material: "+material.Descripcion);
-        });
-        console.log("Material2: "+material.Descripcion);
-        return of(material);*/
         return from(CapacitorHttp.post(options))
         .pipe(map((response:HttpResponse)=>{
           if (response.status === 401) {
@@ -386,18 +362,6 @@ export class APIRESTService {
           data: registro,
         };
 
-
-        /*CapacitorHttp.post(options).then(response=>{
-          console.log("Logro consumir el restapi nativamente");
-          console.log(response);
-          console.log("Estatus: "+response.status);
-          console.log("Headers: "+response.headers);
-          console.log("Data: "+response.data);
-          registro=response.data;
-          console.log("New Registro: "+registro.Descripcion);
-        });
-        console.log("New Registro2: "+registro.Descripcion);
-        return of(registro);*/
         return from(CapacitorHttp.post(options))
         .pipe(map((response:HttpResponse)=>{
           if (response.status === 401) {
@@ -425,5 +389,43 @@ export class APIRESTService {
 
     }
 
+    actualizarMaterial(url:string, material:Material): Observable<Material>{
+      url=this.url+url;
+      if (this.platform.is('hybrid')) {
+
+        const options = {
+          url: url,
+          headers: { 'Content-Type': 'application/json',
+          'Authorization':this.getAuthorizationToken()
+          },
+          data: material,
+        };
+
+        return from(CapacitorHttp.post(options))
+        .pipe(map((response:HttpResponse)=>{
+          if (response.status === 401) {
+            console.log("Token caducado");
+            this.presentAlert();
+            this.router.navigate(['/login']);
+          }
+          console.log("Logro consumir el restapi nativamente");
+          console.log(response);
+          material=response.data;
+          console.log("Material: "+material.Descripcion);
+          return material;
+        }));
+      }else{
+
+      }
+      return this.http.post<Material>(url, material, this.httpOptions).pipe(
+        catchError(err => {
+            // onError
+            console.log("Error capturado al actualizar el materiale en el servidor");
+            console.log(err);
+            return throwError(err);
+          }
+        )
+      );
+    }
 
 }

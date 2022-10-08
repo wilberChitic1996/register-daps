@@ -21,38 +21,41 @@
 
       <ion-list>
         <ion-item>
-          <ion-badge color="dark">ID_USUARIO: </ion-badge>
-          <ion-label></ion-label>
+          <ion-badge color="dark">ID_USUARIO:
+          </ion-badge>
+          <ion-label>{{registro.Id_Usuario}}</ion-label>
         </ion-item>
       </ion-list>
 
       <ion-item lines='none'>
-      <ion-input [(ngModel)]='Usuario'placeholder='FICHA'></ion-input>
+      <ion-input [(ngModel)]='registro.Ficha'placeholder='FICHA' type="number"></ion-input>
       </ion-item>
 
     <ion-list>
       <ion-item>
-        <ion-badge color="warning">ID_MATERIAL: </ion-badge>
-        <ion-label></ion-label>
+        <ion-badge color="warning">ID_MATERIAL:
+
+        </ion-badge>
+        <ion-label>{{registro.Id_Material}}</ion-label>
       </ion-item>
     </ion-list>
 
     <ion-list>
       <ion-item>
         <ion-badge color="dark">DESCRIPCION: </ion-badge>
-        <ion-label></ion-label>
+        <ion-label>{{registro.Descripcion}}</ion-label>
       </ion-item>
     </ion-list>
 
     <ion-list>
       <ion-item>
         <ion-badge color="warning">EXISTENCIA: </ion-badge>
-        <ion-label></ion-label>
+        <ion-label>{{registro.Cantidad_Existente}}</ion-label>
       </ion-item>
     </ion-list>
 
     <ion-item lines='none'>
-    <ion-input [(ngModel)]='Usuario'placeholder='CANTIDAD_ENTREGAR:'></ion-input>
+    <ion-input [(ngModel)]='registro.Cantidad_Entregada' placeholder='CANTIDAD_ENTREGAR:' type="number"></ion-input>
     </ion-item>
 </div>
 
