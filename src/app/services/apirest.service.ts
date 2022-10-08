@@ -26,6 +26,8 @@ export class APIRESTService {
   })
   };
 
+  usuario:Usuario;
+
   token:string;
 
   //url:string="http://172.24.178.155/";

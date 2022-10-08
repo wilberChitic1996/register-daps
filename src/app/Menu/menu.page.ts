@@ -3,6 +3,7 @@ import { MaterialService } from '../services/proveedores/material.service';
 import { RegistroService } from '../services/proveedores/registro.service';
 import { EmpleadoService } from '../services/proveedores/empleado.service';
 import { UsuariosService } from '../services/proveedores/usuarios.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
@@ -16,7 +17,8 @@ export class MenuPage implements OnInit {
   constructor(private materialservice:MaterialService,
     private registroservice:RegistroService,
     private empleadoservice:EmpleadoService,
-    private usuarioservice:UsuariosService) {
+    private usuarioservice:UsuariosService
+    , private router:Router) {
 
       /*console.log(this.materialservice.materiales);
       console.log(this.registroservice.registros);
@@ -32,6 +34,9 @@ export class MenuPage implements OnInit {
       this.usuarioservice.obtenerUsuarios();
   }
 
+  nuevoRegistro(){
+    this.router.navigate(['/newregister']);
+  }
 
 
 

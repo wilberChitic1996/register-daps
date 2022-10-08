@@ -27,7 +27,7 @@
       </ion-list>
 
       <ion-item lines='none'>
-      <ion-input [(ngmodel)]='Usuario'placeholder='FICHA'></ion-input>
+      <ion-input [(ngModel)]='Usuario'placeholder='FICHA'></ion-input>
       </ion-item>
 
     <ion-list>
@@ -52,14 +52,14 @@
     </ion-list>
 
     <ion-item lines='none'>
-    <ion-input [(ngmodel)]='Usuario'placeholder='CANTIDAD_ENTREGAR:'></ion-input>
+    <ion-input [(ngModel)]='Usuario'placeholder='CANTIDAD_ENTREGAR:'></ion-input>
     </ion-item>
 </div>
 
   </ion-header>
 
 <div class="Boton_Guardar">
-  <ion-button color="danger">
+  <ion-button color="danger" (click)="sendNewRegister()">
     GUARDAR
     <ion-icon name="cloud-upload-outline"></ion-icon>
   </ion-button>

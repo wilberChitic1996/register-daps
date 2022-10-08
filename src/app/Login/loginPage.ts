@@ -43,6 +43,7 @@ export class LoginPage implements OnInit{
             console.log(usuario);
             this.apirest.setToken(usuario.token);
             this.usuario.Password="";
+            this.apirest.usuario=this.usuario;
             this.router.navigate(['/menu']);
         }, err => {
             // Puedes pasarle el err en caso de que mandes el mensaje desde el
