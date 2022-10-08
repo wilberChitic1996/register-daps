@@ -14,7 +14,7 @@ import { catchError } from 'rxjs/operators';
 export class TokenInterceptorService implements HttpInterceptor{
 
   constructor(private apirest:APIRESTService,
-    private router:Router,) { }
+    private router:Router) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler) {
     // Get the auth token from the service.
@@ -37,6 +37,7 @@ export class TokenInterceptorService implements HttpInterceptor{
               console.log(err.status);
               console.log(err.statusText);
               if (err.status === 401) {
+                this.apirest.presentAlert();
                 this.router.navigate(['/login']);
               }
           }
@@ -46,4 +47,8 @@ export class TokenInterceptorService implements HttpInterceptor{
     );
 
   }
+
+
+
+
 }
