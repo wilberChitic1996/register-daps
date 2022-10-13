@@ -13,6 +13,11 @@ import { APIRESTService } from './services/apirest.service';
 import { TokenInterceptorService } from './services/interceptors/token-interceptor.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { Md5 } from 'ts-md5/dist/esm/md5';
+import { DatePipe } from '@angular/common';
+import { RegistroService } from './services/proveedores/registro.service';
+import { MaterialService } from './services/proveedores/material.service';
+import { EmpleadoService } from './services/proveedores/empleado.service';
+import { UsuariosService } from './services/proveedores/usuarios.service';
 
 
 
@@ -31,7 +36,12 @@ import { Md5 } from 'ts-md5/dist/esm/md5';
       useClass: TokenInterceptorService,
       multi: true
     },
-    APIRESTService
+    APIRESTService,
+    RegistroService,
+    MaterialService,
+    EmpleadoService,
+    UsuariosService,
+    DatePipe
     ],
   bootstrap: [AppComponent],
 
