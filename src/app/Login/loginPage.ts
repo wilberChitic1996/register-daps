@@ -4,6 +4,7 @@ import {APIRESTService} from '../services/apirest.service';
 import { Params, Router } from '@angular/router';
 import { Usuario } from '../shared/Usuario';
 import { Md5 } from 'ts-md5';
+import { AlertController } from '@ionic/angular';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class LoginPage implements OnInit{
 
   usuario:Usuario={Id_Usuario:0, Usuario:"", Password:"", token:""};
 
-  constructor(private apirest:APIRESTService, private router:Router) {
+  constructor(private apirest:APIRESTService, private router:Router
+    , private alertController:AlertController) {
   }
 
   ngOnInit(): void {
@@ -50,6 +52,7 @@ export class LoginPage implements OnInit{
             // Puedes pasarle el err en caso de que mandes el mensaje desde el
             console.log('Las credenciales no son correctas');
             console.log(err);
+            this.presentAlertLogin();
             this.usuario.Password="";
         }
     );
@@ -58,6 +61,15 @@ export class LoginPage implements OnInit{
 
   }
 
+  async presentAlertLogin() {
+    const alert = await this.alertController.create({
+      header: 'Credenciales no validas',
+      //subHeader: 'Important message',
+      message: 'Vuelva a ingresar sus credenciales por favor!',
+      buttons: ['OK'],
+    });
+    await alert.present();
+  }
 
 
 
