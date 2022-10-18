@@ -62,7 +62,7 @@ export class NuevoMaterialPage implements OnInit {
       Id_Material: [0, [Validators.required]],
       Descripcion: ['', [Validators.required]],
       Cantidad_Existente: [0, [Validators.required]],
-      Id_Tarjeta_NFC: [0, [Validators.required]],
+      Id_Tarjeta_NFC: [0, [Validators.required]]
 
     });
 
@@ -143,6 +143,7 @@ export class NuevoMaterialPage implements OnInit {
 
   generarNFC():void{
     this.material.Id_Tarjeta_NFC=this.MaterialService.materiales.length+1;
+    this.materialForm.controls['Id_Tarjeta_NFC'].setValue(this.material.Id_Tarjeta_NFC);
   }
 
 }
