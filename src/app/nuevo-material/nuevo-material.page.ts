@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { APIRESTService } from '../services/apirest.service';
 import { Material } from '../shared/Material';
 import { MaterialService } from '../services/proveedores/material.service';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
+
+import { FormBuilder, FormGroup,  Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-nuevo-material',
@@ -12,16 +14,90 @@ import { Router } from '@angular/router';
 })
 export class NuevoMaterialPage implements OnInit {
 
+  materialForm: FormGroup;
+
+  formErrors={
+    'Id_Material':"",
+    'Descripcion':"",
+    'Cantidad_Existente':"",
+    'Id_Tarjeta_NFC':""
+
+  };
+
+  validationMessages={
+    'Id_Material':{
+      'required':'El Id Material es requerido'
+    },
+
+    'Descripcion':{
+      'required':'La descripción del material es requerida'
+    },
+
+    'Cantidad_Existente':{
+      'required':'La cantidad existente del material es requerida'
+    },
+
+    'Id_Tarjeta_NFC':{
+      'required':'El Id de la Tarjeta NFC es requerido'
+    }
+
+  }
+
+  @ViewChild('fform') materialFormDirective:any;
+
   material:Material={Id_Material:0, Descripcion:"", Cantidad_Existente:0, Id_Tarjeta_NFC:0};
 
   constructor(private apirest:APIRESTService, private MaterialService:MaterialService
-    , private alertController:AlertController, private router:Router) {
+    , private alertController:AlertController, private router:Router
+    ,private fb:FormBuilder) {
 
   }
 
   ngOnInit() {
 
   }
+
+  createForm(): void {
+    this.materialForm=this.fb.group({
+      Id_Material: [0, [Validators.required]],
+      Descripcion: ['', [Validators.required]],
+      Cantidad_Existente: [0, [Validators.required]],
+      Id_Tarjeta_NFC: [0, [Validators.required]],
+
+    });
+
+    this.materialForm.valueChanges
+    .subscribe(data => this.onValueChanged(data));
+
+    this.onValueChanged(); //Resetear los mensajes de validacion
+
+  }
+
+  onValueChanged(data?:any):void{
+    if(!this.materialForm){
+      return;
+    }
+
+    const form = this.materialForm;
+    for (const field in this.formErrors) {
+      if (this.formErrors.hasOwnProperty(field)) {
+        // clear previous error message (if any)
+        this.formErrors[field] = '';
+        const control = form.get(field);
+        if (control && control.dirty && !control.valid) {
+          const messages = this.validationMessages[field];
+          for (const key in control.errors) {
+            if (control.errors.hasOwnProperty(key)) {
+              this.formErrors[field] += messages[key] + ' ';
+            }
+          }
+        }
+      }
+    }
+
+  }
+
+
 
   async presentAlert() {
     const alert = await this.alertController.create({
@@ -35,10 +111,13 @@ export class NuevoMaterialPage implements OnInit {
 
   sendMaterial():void{
     let url="material/guardar";
+    this.material = this.materialForm.value;
+    console.log(this.material);
     this.apirest.enviarNuevoMaterial(url, this.material).subscribe(
       materiales =>{
         console.log(materiales);
         this.MaterialService.materiales.push(this.material);
+        this.resetearForm();
         this.presentAlert();
         this.router.navigate(['/menu']);
 
@@ -50,6 +129,16 @@ export class NuevoMaterialPage implements OnInit {
         console.log(err);
       }
     );
+  }
+
+  resetearForm():void{
+    this.materialForm.reset({
+      Id_Material: 0,
+      Descripcion: '',
+      Cantidad_Existente: 0,
+      Id_Tarjeta_NFC: 0
+    });
+    this.materialFormDirective.resetForm();
   }
 
   generarNFC():void{
