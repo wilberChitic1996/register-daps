@@ -90,6 +90,10 @@ export class APIRESTService {
         return from(CapacitorHttp.post(options))
         .pipe(map((response:HttpResponse)=>{
           console.log("Logro consumir el restapi nativamente");
+          if((response.status!==200)&&(response.status!==201)){
+            console.log('Credenciales no Validas, http nativo');
+            throw nes Error('Credenciales No Validas');
+          }
           console.log(response);
           usuario.Password="";
           usuario=response.data;
