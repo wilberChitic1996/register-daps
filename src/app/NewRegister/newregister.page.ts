@@ -30,7 +30,6 @@ export class NewRegisterPage {
     'Cantidad_Existente':"",
     'Cantidad_Entregada':"",
     'Ficha':""
-
   };
 
   validationMessages={
@@ -56,7 +55,7 @@ export class NewRegisterPage {
     'Cantidad_Entregada':{
       'required':'La cantidad a entregar del material es requerida',
       'valorZero':'La cantidad a entregar No Puede ser 0',
-      'cantidadentregadamenor':'La cantidad a entregar del material tiene que ser menor a la cantidad existente'
+      'cantidadmenor':'La cantidad a entregar del material tiene que ser menor a la cantidad existente'
     },
 
     'Ficha':{
@@ -84,10 +83,13 @@ export class NewRegisterPage {
   };
 
   public cantidadentregadamenor: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-        const cantidadexistente = control.get('Cantidad_Existente').value;
-        const cantidadentregada = control.get('Cantidad_Entregada').value;
-        if(cantidadentregada>cantidadexistente){
-          return {cantidadentregadamenor:{value:false}};
+        const cantidadexistente = control.get('Cantidad_Existente');
+        const cantidadentregada = control.get('Cantidad_Entregada');
+        console.log('Cantidad Existente: '+cantidadexistente.value);
+        console.log('Cantidad Entregada: '+cantidadentregada.value);
+        if(cantidadentregada.value>cantidadexistente.value){
+          console.log('La cantidad a entregar es mayor');
+          return {cantidadmenor:{value:false}};
         }
       return null;
   };
@@ -115,7 +117,7 @@ export class NewRegisterPage {
       Cantidad_Existente: [0, [Validators.required, this.valorZero]],
       Cantidad_Entregada: [0, [Validators.required, this.valorZero]],
       Ficha: [0, [Validators.required, this.valorZero]]
-    });
+    }, {validators:this.cantidadentregadamenor});
 
     this.registroForm.valueChanges
     .subscribe(data => this.onValueChanged(data));
@@ -132,7 +134,11 @@ export class NewRegisterPage {
       return;
     }
 
+
+
     const form = this.registroForm;
+
+
     for (const field in this.formErrors) {
       if (this.formErrors.hasOwnProperty(field)) {
         // clear previous error message (if any)
@@ -146,6 +152,17 @@ export class NewRegisterPage {
             }
           }
         }
+      }
+    }
+
+    const errors=this.registroForm.errors;
+    for(const error in errors){
+      console.log('Error: '+error);
+      if(error==='cantidadmenor'){
+        console.log('Entro al If');
+        console.log(this.formErrors['Cantidad_Entregada']);
+        this.formErrors['Cantidad_Entregada']+='La cantidad a entregar del material tiene que ser menor o igual a la cantidad existente'+' ';
+        console.log(this.formErrors['Cantidad_Entregada']);
       }
     }
 

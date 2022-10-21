@@ -28,7 +28,7 @@ export class NuevoMaterialPage implements OnInit {
   validationMessages={
     'Id_Material':{
       'required':'El Id Material es requerido',
-      'valorZero':'El Id Material No Puede ser 0'
+      'valorZero':'El Id Material No Puede ser 0',
     },
 
     'Descripcion':{
