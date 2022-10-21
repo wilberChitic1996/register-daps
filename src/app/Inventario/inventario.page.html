@@ -10,7 +10,8 @@
     <div class="Titulo_1">
       <h2>INVENTARIO GENERAL</h2>
   </div>
-  <ion-searchbar show-cancel-button="focus" placeholder="Busqueda"></ion-searchbar>
+  <ion-searchbar show-cancel-button="focus" placeholder="Busqueda"
+  [(ngModel)]="filtro" (ngModelChange)="filtarRegistros()"></ion-searchbar>
   </ion-toolbar>
 </ion-header>
 

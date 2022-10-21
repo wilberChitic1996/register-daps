@@ -11,13 +11,15 @@ import { MaterialService } from '../services/proveedores/material.service';
 export class InventarioPage implements OnInit {
 
 
-
+  filtro:string='';
+  materialesBackup:Material[];
   materiales:Material[];
 
   constructor(private materialesservice:MaterialService) { }
 
   ngOnInit() {
     this.materiales=this.materialesservice.materiales;
+    this.materialesBackup=this.materiales;
   }
 
   ionViewWillEnter(){
@@ -26,9 +28,19 @@ export class InventarioPage implements OnInit {
 
   ionViewDidEnter(){
     this.materiales=this.materialesservice.materiales;
+    this.materialesBackup=this.materiales;
   }
 
   filtarRegistros():void{
-    
+    if(this.filtro.length===0){
+      this.materiales=this.materialesBackup;
+    }else{
+      this.materiales=this.materiales.filter(material=>{
+        if(material.Descripcion.toUpperCase().startsWith(this.filtro.toUpperCase())){
+          return true;
+        }
+        return false;
+      });
+    }
   }
 }
