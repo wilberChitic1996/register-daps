@@ -35,7 +35,7 @@ export class InventarioPage implements OnInit {
     if(this.filtro.length===0){
       this.materiales=this.materialesBackup;
     }else{
-      this.materiales=this.materiales.filter(material=>{
+      this.materiales=this.materialesBackup.filter(material=>{
         if(material.Descripcion.toUpperCase().startsWith(this.filtro.toUpperCase())){
           return true;
         }

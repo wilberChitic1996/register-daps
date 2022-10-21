@@ -15,6 +15,8 @@ import { EmpleadoService } from '../services/proveedores/empleado.service';
 export class HistoricoPage implements OnInit {
 
 
+  filtro:string='';
+  registrosBackup:Registro[];
   registros:Registro[];
 
   constructor(private registroservice:RegistroService
@@ -25,6 +27,14 @@ export class HistoricoPage implements OnInit {
   }
 
   ngOnInit() {
+    this.obtenerRegistros();
+  }
+
+  ionViewWillEnter(){
+    this.registroservice.obtenerRegistros();
+  }
+
+  ionViewDidEnter(){
     this.obtenerRegistros();
   }
 
@@ -57,13 +67,22 @@ export class HistoricoPage implements OnInit {
       );
 
     });
+
+    this.registrosBackup=this.registros;
+
+
   }
 
-  ionViewWillEnter(){
-    this.registroservice.obtenerRegistros();
-  }
-
-  ionViewDidEnter(){
-    this.obtenerRegistros();
+  filtarRegistros():void{
+    if(this.filtro.length===0){
+      this.registros=this.registrosBackup;
+    }else{
+      this.registros=this.registrosBackup.filter(material=>{
+        if(material.Descripcion.toUpperCase().startsWith(this.filtro.toUpperCase())){
+          return true;
+        }
+        return false;
+      });
+    }
   }
 }
