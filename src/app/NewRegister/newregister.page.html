@@ -1,70 +1,128 @@
 <ion-header [translucent]="true">
   <ion-toolbar color="warning">
-
     <ion-buttons slot="end">
-      <ion-button [routerLink]="['/menu']" >
-        <img src= "assets\daps\home.png" alt="">
+      <ion-button [routerLink]="['/menu']">
+        <img src="assets\daps\home.png" alt="" />
       </ion-button>
     </ion-buttons>
 
     <div class="Titulo_1">
       <h2>NUEVO REGISTRO</h2>
-  </div>
-
+    </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-header>
+    <div class="Menu_Registro">
+      <form
+        novalidate
+        [formGroup]="registroForm"
+        #fform="ngForm"
+        (ngSubmit)="sendNewRegister()"
+      >
+        <ion-list>
+          <ion-item>
+            <ion-badge color="dark">ID_USUARIO:</ion-badge>
+            <ion-input
+              formControlName="Id_Usuario"
+              placeholder="Id_Usuario"
+              type="number"
+              required
+              readonly
+            ></ion-input>
+          </ion-item>
+          <ion-item *ngIf="formErrors.Id_Usuario">
+            <ion-label class="ion-text-wrap"> {{formErrors.Id_Usuario}} </ion-label>
+          </ion-item>
+        </ion-list>
 
-  <div class="Menu_Registro">
+        <ion-list>
+          <ion-item lines="none">
+            <ion-input
+              formControlName="Ficha"
+              placeholder="FICHA"
+              type="number"
+              required
+            ></ion-input>
+          </ion-item>
 
-      <ion-list>
-        <ion-item>
-          <ion-badge color="dark">ID_USUARIO:
-          </ion-badge>
-          <ion-label>{{registro.Id_Usuario}}</ion-label>
-        </ion-item>
-      </ion-list>
+          <ion-item *ngIf="formErrors.Ficha">
+            <ion-label class="ion-text-wrap"> {{formErrors.Ficha}} </ion-label>
+          </ion-item>
+        </ion-list>
 
-      <ion-item lines='none'>
-      <ion-input [(ngModel)]='registro.Ficha'placeholder='FICHA' type="number"></ion-input>
-      </ion-item>
+        <ion-list>
+          <ion-item>
+            <ion-badge color="warning">ID_MATERIAL:</ion-badge>
+            <ion-input
+              formControlName="Id_Material"
+              placeholder="Id_Material"
+              type="number"
+              required
+              readonly
+            ></ion-input>
+          </ion-item>
 
-    <ion-list>
-      <ion-item>
-        <ion-badge color="warning">ID_MATERIAL:
+          <ion-item *ngIf="formErrors.Id_Material">
+            <ion-label class="ion-text-wrap"> {{formErrors.Id_Material}} </ion-label>
+          </ion-item>
+        </ion-list>
 
-        </ion-badge>
-        <ion-label>{{registro.Id_Material}}</ion-label>
-      </ion-item>
-    </ion-list>
+        <ion-list>
+          <ion-item>
+            <ion-badge color="dark">DESCRIPCION:</ion-badge>
+            <ion-input
+              formControlName="Descripcion"
+              placeholder="Descripcion"
+              type="text"
+              required
+            ></ion-input>
+          </ion-item>
 
-    <ion-list>
-      <ion-item>
-        <ion-badge color="dark">DESCRIPCION: </ion-badge>
-        <ion-label>{{registro.Descripcion}}</ion-label>
-      </ion-item>
-    </ion-list>
+          <ion-item *ngIf="formErrors.Descripcion">
+            <ion-label class="ion-text-wrap"> {{formErrors.Descripcion}} </ion-label>
+          </ion-item>
+        </ion-list>
 
-    <ion-list>
-      <ion-item>
-        <ion-badge color="warning">EXISTENCIA: </ion-badge>
-        <ion-label>{{registro.Cantidad_Existente}}</ion-label>
-      </ion-item>
-    </ion-list>
+        <ion-list>
+          <ion-item>
+            <ion-badge color="warning">EXISTENCIA:</ion-badge>
+            <ion-input
+              formControlName="Cantidad_Existente"
+              placeholder="Cantidad_Existente"
+              type="number"
+              required
+              readonly
+            ></ion-input>
+          </ion-item>
+          <ion-item *ngIf="formErrors.Cantidad_Existente">
+            <ion-label class="ion-text-wrap"> {{formErrors.Cantidad_Existente}} </ion-label>
+          </ion-item>
+        </ion-list>
 
-    <ion-item lines='none'>
-    <ion-input [(ngModel)]='registro.Cantidad_Entregada' placeholder='CANTIDAD_ENTREGAR:' type="number"></ion-input>
-    </ion-item>
-</div>
+        <ion-list>
+          <ion-item lines="none">
+            <ion-input
+              formControlName="Cantidad_Entregada"
+              placeholder="CANTIDAD_ENTREGAR:"
+              type="number"
+              required
+            ></ion-input>
+          </ion-item>
 
+          <ion-item *ngIf="formErrors.Cantidad_Entregada">
+            <ion-label class="ion-text-wrap"> {{formErrors.Cantidad_Entregada}} </ion-label>
+          </ion-item>
+        </ion-list>
+
+        <div class="Boton_Guardar">
+          <ion-button color="danger" type="submit" [disabled]="registroForm.invalid">
+            GUARDAR
+            <ion-icon name="cloud-upload-outline"></ion-icon>
+          </ion-button>
+        </div>
+      </form>
+    </div>
   </ion-header>
-
-<div class="Boton_Guardar">
-  <ion-button color="danger" (click)="sendNewRegister()">
-    GUARDAR
-    <ion-icon name="cloud-upload-outline"></ion-icon>
-  </ion-button>
-</div>
 </ion-content>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { APIRESTService } from '../services/apirest.service';
 import { Registro } from '../shared/Registro';
 import { Material } from '../shared/Material';
@@ -9,6 +9,7 @@ import { angularMath } from 'angular-ts-math/dist/angular-ts-math/angular-ts-mat
 import { AlertController } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
 
+import { AbstractControl, FormBuilder, FormGroup,  ValidationErrors,  ValidatorFn,  Validators } from '@angular/forms';
 @Component({
   selector: 'app-newregister',
   templateUrl: 'newregister.page.html',
@@ -19,15 +20,135 @@ export class NewRegisterPage {
   registro:Registro={Id_Usuario:0, Id_Material:0, Descripcion:"", Cantidad_Existente:0
           ,Cantidad_Entregada:0, Ficha:0, Id_Registro:0};
 
+
+  registroForm: FormGroup;
+
+  formErrors={
+    'Id_Usuario':"",
+    'Id_Material':"",
+    'Descripcion':"",
+    'Cantidad_Existente':"",
+    'Cantidad_Entregada':"",
+    'Ficha':""
+
+  };
+
+  validationMessages={
+    'Id_Usuario':{
+      'required':'El Id Usuario es requerido',
+      'valorZero':'El Id Usuario No Puede ser 0'
+    },
+
+    'Id_Material':{
+      'required':'El Id Material es requerido',
+      'valorZero':'El Id Material No Puede ser 0'
+    },
+
+    'Descripcion':{
+      'required':'La descripcion del material es requerida'
+    },
+
+    'Cantidad_Existente':{
+      'required':'La cantidad existente del material es requerida',
+      'valorZero':'La cantidad existente No Puede ser 0'
+    },
+
+    'Cantidad_Entregada':{
+      'required':'La cantidad a entregar del material es requerida',
+      'valorZero':'La cantidad a entregar No Puede ser 0',
+      'cantidadentregadamenor':'La cantidad a entregar del material tiene que ser menor a la cantidad existente'
+    },
+
+    'Ficha':{
+      'required':'El Numero de Ficha del empleado es requerido',
+      'valorZero':'El Numero de Ficha No Puede ser 0'
+    }
+
+  }
+
+
+
+
+
+  @ViewChild('fform') registroFormDirective:any;
+
+
+
+  public valorZero: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const valor = control.value;
+        console.log('Valor obtenido en el validador: '+valor);
+        if(valor===0){
+          return {valorZero:{value: control.value}};
+        }
+      return null;
+  };
+
+  public cantidadentregadamenor: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+        const cantidadexistente = control.get('Cantidad_Existente').value;
+        const cantidadentregada = control.get('Cantidad_Entregada').value;
+        if(cantidadentregada>cantidadexistente){
+          return {cantidadentregadamenor:{value:false}};
+        }
+      return null;
+  };
+
   constructor(private apirest:APIRESTService
     ,private materialservice:MaterialService
     ,private registroservice:RegistroService
     ,private router:Router
     ,private alertController:AlertController
-    ,public datepipe:DatePipe) {}
+    ,public datepipe:DatePipe
+    ,private fb:FormBuilder) {
+      this.createForm();
+    }
 
   ngOnInit() {
     this.valoresIniciales();
+  }
+
+
+  createForm(): void {
+    this.registroForm=this.fb.group({
+      Id_Usuario: [0, [Validators.required, this.valorZero]],
+      Id_Material: [0, [Validators.required, this.valorZero]],
+      Descripcion: ['', [Validators.required]],
+      Cantidad_Existente: [0, [Validators.required, this.valorZero]],
+      Cantidad_Entregada: [0, [Validators.required, this.valorZero]],
+      Ficha: [0, [Validators.required, this.valorZero]]
+    });
+
+    this.registroForm.valueChanges
+    .subscribe(data => this.onValueChanged(data));
+
+    this.onValueChanged(); //Resetear los mensajes de validacion
+
+  }
+
+
+
+
+  onValueChanged(data?:any):void{
+    if(!this.registroForm){
+      return;
+    }
+
+    const form = this.registroForm;
+    for (const field in this.formErrors) {
+      if (this.formErrors.hasOwnProperty(field)) {
+        // clear previous error message (if any)
+        this.formErrors[field] = '';
+        const control = form.get(field);
+        if (control && control.dirty && !control.valid) {
+          const messages = this.validationMessages[field];
+          for (const key in control.errors) {
+            if (control.errors.hasOwnProperty(key)) {
+              this.formErrors[field] += messages[key] + ' ';
+            }
+          }
+        }
+      }
+    }
+
   }
 
   private valoresIniciales():void{
@@ -36,6 +157,11 @@ export class NewRegisterPage {
     this.registro.Descripcion=this.generarDescripcion(this.registro.Id_Material);
     this.registro.Cantidad_Existente=this.generarExistencia(this.registro.Id_Material);
 
+
+    this.registroForm.controls['Id_Usuario'].setValue(this.registro.Id_Usuario);
+    this.registroForm.controls['Id_Material'].setValue(this.registro.Id_Material);
+    this.registroForm.controls['Descripcion'].setValue(this.registro.Descripcion);
+    this.registroForm.controls['Cantidad_Existente'].setValue(this.registro.Cantidad_Existente);
   }
 
   private generarNFC():number{
@@ -69,6 +195,7 @@ export class NewRegisterPage {
     return existencia;
   }
 
+
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Registro Ingresado',
@@ -80,8 +207,9 @@ export class NewRegisterPage {
   }
 
   sendNewRegister():void {
-
+    console.log("Enviara el Nuevo Registro");
     let url='registro/guardar';
+    this.registro = this.registroForm.value;
     let fecha:Date=new Date();
     this.registro.Fecha_Entrega=this.datepipe.transform(fecha, 'yyyy-MM-dd hh:mm:ss');
     console.log(this.registro);
@@ -132,6 +260,18 @@ export class NewRegisterPage {
       }
     );
 
+  }
+
+  resetearForm():void{
+    this.registroForm.reset({
+      Id_Usuario: 0,
+      Id_Material: 0,
+      Descripcion: '',
+      Cantidad_Existente: 0,
+      Cantidad_Entregada: 0,
+      Ficha: 0
+    });
+    this.registroFormDirective.resetForm();
   }
 
 }

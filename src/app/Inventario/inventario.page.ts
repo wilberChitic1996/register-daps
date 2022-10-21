@@ -27,4 +27,8 @@ export class InventarioPage implements OnInit {
   ionViewDidEnter(){
     this.materiales=this.materialesservice.materiales;
   }
+
+  filtarRegistros():void{
+    
+  }
 }

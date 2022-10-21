@@ -23,9 +23,11 @@ import { UsuariosService } from './services/proveedores/usuarios.service';
 
 
 
+
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
+
     ],
 
   imports: [FormsModule,ReactiveFormsModule, BrowserModule, IonicModule.forRoot(),

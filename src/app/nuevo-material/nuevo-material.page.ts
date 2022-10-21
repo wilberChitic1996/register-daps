@@ -5,7 +5,8 @@ import { MaterialService } from '../services/proveedores/material.service';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
-import { FormBuilder, FormGroup,  Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup,  ValidationErrors,  ValidatorFn,  Validators } from '@angular/forms';
+import { valorZeroValidator} from '../shared/ValidarZero-Directive';
 
 @Component({
   selector: 'app-nuevo-material',
@@ -26,7 +27,8 @@ export class NuevoMaterialPage implements OnInit {
 
   validationMessages={
     'Id_Material':{
-      'required':'El Id Material es requerido'
+      'required':'El Id Material es requerido',
+      'valorZero':'El Id Material No Puede ser 0'
     },
 
     'Descripcion':{
@@ -34,14 +36,17 @@ export class NuevoMaterialPage implements OnInit {
     },
 
     'Cantidad_Existente':{
-      'required':'La cantidad existente del material es requerida'
+      'required':'La cantidad existente del material es requerida',
+      'valorZero':'La cantidad existente No Puede ser 0'
     },
 
     'Id_Tarjeta_NFC':{
-      'required':'El Id de la Tarjeta NFC es requerido'
+      'required':'El Id de la Tarjeta NFC es requerido',
+      'valorZero':'El Id de la Tarjeta NFC No Puede ser 0'
     }
 
   }
+
 
   @ViewChild('fform') materialFormDirective:any;
 
@@ -50,6 +55,7 @@ export class NuevoMaterialPage implements OnInit {
   constructor(private apirest:APIRESTService, private MaterialService:MaterialService
     , private alertController:AlertController, private router:Router
     ,private fb:FormBuilder) {
+      this.createForm();
 
   }
 
@@ -59,13 +65,12 @@ export class NuevoMaterialPage implements OnInit {
 
   createForm(): void {
     this.materialForm=this.fb.group({
-      Id_Material: [0, [Validators.required]],
+      Id_Material: [0, [Validators.required, valorZeroValidator]],
       Descripcion: ['', [Validators.required]],
-      Cantidad_Existente: [0, [Validators.required]],
-      Id_Tarjeta_NFC: [0, [Validators.required]]
+      Cantidad_Existente: [0, [Validators.required, valorZeroValidator]],
+      Id_Tarjeta_NFC: [0, [Validators.required, valorZeroValidator]]
 
     });
-
     this.materialForm.valueChanges
     .subscribe(data => this.onValueChanged(data));
 

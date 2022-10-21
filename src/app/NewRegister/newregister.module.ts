@@ -8,11 +8,14 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 
 import { Tab3PageRoutingModule } from './newregister-routing.module';
 
+import { ReactiveFormsModule } from '@angular/forms';
+
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     ExploreContainerComponentModule,
     RouterModule.forChild([{ path: '', component: NewRegisterPage }]),
     Tab3PageRoutingModule,

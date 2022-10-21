@@ -8,13 +8,17 @@ import { NuevoMaterialPageRoutingModule } from './nuevo-material-routing.module'
 
 import { NuevoMaterialPage } from './nuevo-material.page';
 
+import { ReactiveFormsModule } from '@angular/forms';
+import { ZeroValidatorDirective } from '../shared/ValidarZero-Directive';
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ReactiveFormsModule,
     NuevoMaterialPageRoutingModule
   ],
-  declarations: [NuevoMaterialPage]
+  declarations: [NuevoMaterialPage, ZeroValidatorDirective]
 })
 export class NuevoMaterialPageModule {}

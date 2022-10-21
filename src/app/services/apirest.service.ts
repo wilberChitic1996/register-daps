@@ -33,8 +33,8 @@ export class APIRESTService {
   /**
    * Url base del servidor donde se encuentran nuestros endpoints
    */
-  //url:string="http://172.24.178.155/";
-  url:string="http://172.22.2.78/";
+  url:string="http://172.24.178.155/";
+  //url:string="http://172.22.2.78/";
 
 
   /**
@@ -51,7 +51,7 @@ export class APIRESTService {
     console.log('Servicio HTTP:');
   }
 
-  
+
     async presentAlert() {
       const alert = await this.alertController.create({
         header: 'Sesión Caducada',
