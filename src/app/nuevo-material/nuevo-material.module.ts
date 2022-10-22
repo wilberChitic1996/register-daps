@@ -10,6 +10,7 @@ import { NuevoMaterialPage } from './nuevo-material.page';
 
 import { ReactiveFormsModule } from '@angular/forms';
 import { ZeroValidatorDirective } from '../shared/ValidarZero-Directive';
+import { NFC } from '@awesome-cordova-plugins/nfc/ngx';
 
 @NgModule({
   imports: [
@@ -18,6 +19,9 @@ import { ZeroValidatorDirective } from '../shared/ValidarZero-Directive';
     IonicModule,
     ReactiveFormsModule,
     NuevoMaterialPageRoutingModule
+  ],
+  providers:[
+    NFC
   ],
   declarations: [NuevoMaterialPage, ZeroValidatorDirective]
 })

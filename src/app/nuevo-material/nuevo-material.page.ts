@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { AbstractControl, FormBuilder, FormGroup,  ValidationErrors,  ValidatorFn,  Validators } from '@angular/forms';
 import { valorZeroValidator} from '../shared/ValidarZero-Directive';
+import { Ndef, NFC } from '@awesome-cordova-plugins/nfc/ngx';
 
 @Component({
   selector: 'app-nuevo-material',
@@ -54,7 +55,9 @@ export class NuevoMaterialPage implements OnInit {
 
   constructor(private apirest:APIRESTService, private MaterialService:MaterialService
     , private alertController:AlertController, private router:Router
-    ,private fb:FormBuilder) {
+    ,private fb:FormBuilder
+    ,private nfc:NFC
+    ,private ndef:Ndef) {
       this.createForm();
 
   }
@@ -149,6 +152,19 @@ export class NuevoMaterialPage implements OnInit {
   generarNFC():void{
     this.material.Id_Tarjeta_NFC=this.MaterialService.materiales.length+1;
     this.materialForm.controls['Id_Tarjeta_NFC'].setValue(this.material.Id_Tarjeta_NFC);
+  }
+
+  leerNFC():void{
+    /*this.nfc.addNdefListener(() => {
+      console.log('successfully attached ndef listener');
+    }, (err) => {
+      console.log('error attaching ndef listener', err);
+    }).subscribe((event) => {
+      console.log('received ndef message. the tag contains: ', event.tag);
+      console.log('decoded tag id', this.nfc.bytesToHexString(event.tag.id));
+      let message = this.ndef.textRecord('Hello world');
+      this.nfc.share([message]).then(onSuccess).catch(onError);
+    });*/
   }
 
 }
