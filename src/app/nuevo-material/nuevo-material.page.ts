@@ -7,7 +7,7 @@ import { Router } from '@angular/router';
 
 import { AbstractControl, FormBuilder, FormGroup,  ValidationErrors,  ValidatorFn,  Validators } from '@angular/forms';
 import { valorZeroValidator} from '../shared/ValidarZero-Directive';
-import { Ndef, NFC } from '@awesome-cordova-plugins/nfc/ngx';
+//import { Ndef, NFC } from '@awesome-cordova-plugins/nfc/ngx';
 
 @Component({
   selector: 'app-nuevo-material',
@@ -56,8 +56,9 @@ export class NuevoMaterialPage implements OnInit {
   constructor(private apirest:APIRESTService, private MaterialService:MaterialService
     , private alertController:AlertController, private router:Router
     ,private fb:FormBuilder
-    ,private nfc:NFC
-    ,private ndef:Ndef) {
+    //,private nfc:NFC
+    //,private ndef:Ndef
+    ) {
       this.createForm();
 
   }
