@@ -5,9 +5,9 @@ import { MaterialService } from '../services/proveedores/material.service';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 
-import { AbstractControl, FormBuilder, FormGroup,  ValidationErrors,  ValidatorFn,  Validators } from '@angular/forms';
-import { valorZeroValidator} from '../shared/ValidarZero-Directive';
-//import { Ndef, NFC } from '@awesome-cordova-plugins/nfc/ngx';
+import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { valorZeroValidator } from '../shared/ValidarZero-Directive';
+import { NFC, Ndef } from '@awesome-cordova-plugins/nfc/ngx';
 
 @Component({
   selector: 'app-nuevo-material',
@@ -18,48 +18,48 @@ export class NuevoMaterialPage implements OnInit {
 
   materialForm: FormGroup;
 
-  formErrors={
-    'Id_Material':"",
-    'Descripcion':"",
-    'Cantidad_Existente':"",
-    'Id_Tarjeta_NFC':""
+  formErrors = {
+    'Id_Material': "",
+    'Descripcion': "",
+    'Cantidad_Existente': "",
+    'Id_Tarjeta_NFC': ""
 
   };
 
-  validationMessages={
-    'Id_Material':{
-      'required':'El Id Material es requerido',
-      'valorZero':'El Id Material No Puede ser 0',
+  validationMessages = {
+    'Id_Material': {
+      'required': 'El Id Material es requerido',
+      'valorZero': 'El Id Material No Puede ser 0',
     },
 
-    'Descripcion':{
-      'required':'La descripción del material es requerida'
+    'Descripcion': {
+      'required': 'La descripción del material es requerida'
     },
 
-    'Cantidad_Existente':{
-      'required':'La cantidad existente del material es requerida',
-      'valorZero':'La cantidad existente No Puede ser 0'
+    'Cantidad_Existente': {
+      'required': 'La cantidad existente del material es requerida',
+      'valorZero': 'La cantidad existente No Puede ser 0'
     },
 
-    'Id_Tarjeta_NFC':{
-      'required':'El Id de la Tarjeta NFC es requerido',
-      'valorZero':'El Id de la Tarjeta NFC No Puede ser 0'
+    'Id_Tarjeta_NFC': {
+      'required': 'El Id de la Tarjeta NFC es requerido',
+      'valorZero': 'El Id de la Tarjeta NFC No Puede ser 0'
     }
 
   }
 
 
-  @ViewChild('fform') materialFormDirective:any;
+  @ViewChild('fform') materialFormDirective: any;
 
-  material:Material={Id_Material:0, Descripcion:"", Cantidad_Existente:0, Id_Tarjeta_NFC:0};
+  material: Material = { Id_Material: 0, Descripcion: "", Cantidad_Existente: 0, Id_Tarjeta_NFC: 0 };
 
-  constructor(private apirest:APIRESTService, private MaterialService:MaterialService
-    , private alertController:AlertController, private router:Router
-    ,private fb:FormBuilder
-    //,private nfc:NFC
-    //,private ndef:Ndef
-    ) {
-      this.createForm();
+  constructor(private apirest: APIRESTService, private MaterialService: MaterialService
+    , private alertController: AlertController, private router: Router
+    , private fb: FormBuilder
+    , private nfc: NFC
+    , private ndef: Ndef
+  ) {
+    this.createForm();
 
   }
 
@@ -68,7 +68,7 @@ export class NuevoMaterialPage implements OnInit {
   }
 
   createForm(): void {
-    this.materialForm=this.fb.group({
+    this.materialForm = this.fb.group({
       Id_Material: [0, [Validators.required, valorZeroValidator]],
       Descripcion: ['', [Validators.required]],
       Cantidad_Existente: [0, [Validators.required, valorZeroValidator]],
@@ -76,14 +76,14 @@ export class NuevoMaterialPage implements OnInit {
 
     });
     this.materialForm.valueChanges
-    .subscribe(data => this.onValueChanged(data));
+      .subscribe(data => this.onValueChanged(data));
 
     this.onValueChanged(); //Resetear los mensajes de validacion
 
   }
 
-  onValueChanged(data?:any):void{
-    if(!this.materialForm){
+  onValueChanged(data?: any): void {
+    if (!this.materialForm) {
       return;
     }
 
@@ -118,12 +118,12 @@ export class NuevoMaterialPage implements OnInit {
     await alert.present();
   }
 
-  sendMaterial():void{
-    let url="material/guardar";
+  sendMaterial(): void {
+    let url = "material/guardar";
     this.material = this.materialForm.value;
     console.log(this.material);
     this.apirest.enviarNuevoMaterial(url, this.material).subscribe(
-      materiales =>{
+      materiales => {
         console.log(materiales);
         this.MaterialService.materiales.push(this.material);
         this.resetearForm();
@@ -140,7 +140,7 @@ export class NuevoMaterialPage implements OnInit {
     );
   }
 
-  resetearForm():void{
+  resetearForm(): void {
     this.materialForm.reset({
       Id_Material: 0,
       Descripcion: '',
@@ -150,13 +150,14 @@ export class NuevoMaterialPage implements OnInit {
     this.materialFormDirective.resetForm();
   }
 
-  generarNFC():void{
-    this.material.Id_Tarjeta_NFC=this.MaterialService.materiales.length+1;
+  generarNFC(): void {
+    this.material.Id_Tarjeta_NFC = this.MaterialService.materiales.length + 1;
     this.materialForm.controls['Id_Tarjeta_NFC'].setValue(this.material.Id_Tarjeta_NFC);
+    this.leerNFC();
   }
 
-  leerNFC():void{
-    /*this.nfc.addNdefListener(() => {
+  /*leerNFC():void{
+    this.nfc.addNdefListener(() => {
       console.log('successfully attached ndef listener');
     }, (err) => {
       console.log('error attaching ndef listener', err);
@@ -164,8 +165,44 @@ export class NuevoMaterialPage implements OnInit {
       console.log('received ndef message. the tag contains: ', event.tag);
       console.log('decoded tag id', this.nfc.bytesToHexString(event.tag.id));
       let message = this.ndef.textRecord('Hello world');
-      this.nfc.share([message]).then(onSuccess).catch(onError);
-    });*/
+      this.nfc.share([message]).then(
+        data=>{
+            console.log('Se escribio en la NFC correctamente');
+            console.log(data);
+        }
+        ).catch(
+          error=>{
+            console.log('Sucedio un error al escribir en la NFC');
+            console.log(error);
+        }
+          );
+    });
+  }*/
+
+  leerNFC(): void {
+    let flags = this.nfc.FLAG_READER_NFC_A | this.nfc.FLAG_READER_NFC_V;
+    this.nfc.readerMode(flags).subscribe(
+      tag => {
+        console.log(JSON.stringify(tag));
+        console.log(JSON.stringify(this.nfc.bytesToHexString(tag.id)));
+        console.log(JSON.stringify(tag.ndefMessage));
+        tag.ndefMessage.forEach(mensaje =>{
+
+            console.log(this.nfc.bytesToHexString(mensaje.id));
+            console.log(this.nfc.bytesToHexString(mensaje.payload));
+            console.log(this.nfc.bytesToString(mensaje.payload));
+            console.log(this.nfc.bytesToHexString(mensaje.type));
+            console.log(mensaje.tnf);
+          }
+          );
+        this.nfc.close();
+      }
+      ,
+      err => {
+        console.log('Error reading tag', err);
+      }
+
+    );
   }
 
 }
