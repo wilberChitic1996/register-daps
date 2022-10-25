@@ -345,7 +345,14 @@ export class APIRESTService {
             this.presentAlert();
             this.router.navigate(['/login']);
           }
-          console.log("Logro consumir el restapi nativamente");
+
+          if((response.status!==200)&&(response.status!==201)){
+            console.log('Material no Ingresado');
+            throw new Error('Material no Ingresado');
+          }
+
+
+          console.log("Logro consumir el restapi nativamente: "+response.status);
           console.log(response);
           material=response.data;
           console.log("Material: "+material.Descripcion);

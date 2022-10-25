@@ -10,6 +10,7 @@ import { AlertController } from '@ionic/angular';
 import { DatePipe } from '@angular/common';
 
 import { AbstractControl, FormBuilder, FormGroup,  ValidationErrors,  ValidatorFn,  Validators } from '@angular/forms';
+import { NfcService } from '../services/nfc.service';
 @Component({
   selector: 'app-newregister',
   templateUrl: 'newregister.page.html',
@@ -75,7 +76,7 @@ export class NewRegisterPage {
 
   public valorZero: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
     const valor = control.value;
-        console.log('Valor obtenido en el validador: '+valor);
+        //console.log('Valor obtenido en el validador: '+valor);
         if(valor===0){
           return {valorZero:{value: control.value}};
         }
@@ -85,10 +86,10 @@ export class NewRegisterPage {
   public cantidadentregadamenor: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
         const cantidadexistente = control.get('Cantidad_Existente');
         const cantidadentregada = control.get('Cantidad_Entregada');
-        console.log('Cantidad Existente: '+cantidadexistente.value);
-        console.log('Cantidad Entregada: '+cantidadentregada.value);
+        //console.log('Cantidad Existente: '+cantidadexistente.value);
+        //console.log('Cantidad Entregada: '+cantidadentregada.value);
         if(cantidadentregada.value>cantidadexistente.value){
-          console.log('La cantidad a entregar es mayor');
+          //console.log('La cantidad a entregar es mayor');
           return {cantidadmenor:{value:false}};
         }
       return null;
@@ -100,7 +101,8 @@ export class NewRegisterPage {
     ,private router:Router
     ,private alertController:AlertController
     ,public datepipe:DatePipe
-    ,private fb:FormBuilder) {
+    ,private fb:FormBuilder
+    ,private nfc:NfcService) {
       this.createForm();
     }
 
@@ -170,26 +172,45 @@ export class NewRegisterPage {
 
   private valoresIniciales():void{
     this.registro.Id_Usuario=this.apirest.usuario.Id_Usuario;
-    this.registro.Id_Material=this.generarNFC();
-    this.registro.Descripcion=this.generarDescripcion(this.registro.Id_Material);
-    this.registro.Cantidad_Existente=this.generarExistencia(this.registro.Id_Material);
+    this.generarNFC();
 
-
-    this.registroForm.controls['Id_Usuario'].setValue(this.registro.Id_Usuario);
-    this.registroForm.controls['Id_Material'].setValue(this.registro.Id_Material);
-    this.registroForm.controls['Descripcion'].setValue(this.registro.Descripcion);
-    this.registroForm.controls['Cantidad_Existente'].setValue(this.registro.Cantidad_Existente);
   }
 
-  private generarNFC():number{
+  private generarNFC():void{
     let idmaterial:number;
-    let idNFC:number=angularMath.getIntegerRandomRange(1, this.materialservice.materiales.length);
-    this.materialservice.materiales.forEach(material => {
-      if(material.Id_Tarjeta_NFC===idNFC){
-        idmaterial=material.Id_Material;
-      }
-    });
-    return idmaterial;
+    //let idNFC:number=angularMath.getIntegerRandomRange(1, this.materialservice.materiales.length);
+    let idNFC:number;
+    try {
+      this.nfc.leerNFC().subscribe((etiqueta) => {
+        console.log('Respuesta obtenida en Nuevo Registro: '+etiqueta);
+        console.log(etiqueta);
+
+        //this.material.Id_Tarjeta_NFC = this.MaterialService.materiales.length + 1;
+        idNFC=+etiqueta;
+        this.nfc.closeNFC();
+        this.materialservice.materiales.forEach(material => {
+          if(material.Id_Tarjeta_NFC===idNFC){
+            idmaterial=material.Id_Material;
+          }
+        });
+        this.registro.Id_Material=idmaterial;
+        this.registro.Descripcion=this.generarDescripcion(this.registro.Id_Material);
+        this.registro.Cantidad_Existente=this.generarExistencia(this.registro.Id_Material);
+        this.registroForm.controls['Id_Usuario'].setValue(this.registro.Id_Usuario);
+        this.registroForm.controls['Id_Material'].setValue(this.registro.Id_Material);
+        this.registroForm.controls['Descripcion'].setValue(this.registro.Descripcion);
+        this.registroForm.controls['Cantidad_Existente'].setValue(this.registro.Cantidad_Existente);
+      },
+        (error) => {
+          console.log('Error capturado al leer tarjeta NFC');
+          console.log(error);
+          this.nfc.presentAlert();
+        }
+      );
+    } catch (error) {
+      console.log('Error capturado al suscribirse al observable que obtiene el IdNFC');
+      console.log(error);
+    }
   }
 
   private generarDescripcion(idMaterial:number):string{

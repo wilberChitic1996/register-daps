@@ -7,7 +7,8 @@ import { Router } from '@angular/router';
 
 import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { valorZeroValidator } from '../shared/ValidarZero-Directive';
-import { NFC, Ndef } from '@awesome-cordova-plugins/nfc/ngx';
+import { NfcService } from '../services/nfc.service';
+
 
 @Component({
   selector: 'app-nuevo-material',
@@ -56,8 +57,8 @@ export class NuevoMaterialPage implements OnInit {
   constructor(private apirest: APIRESTService, private MaterialService: MaterialService
     , private alertController: AlertController, private router: Router
     , private fb: FormBuilder
-    , private nfc: NFC
-    , private ndef: Ndef
+    , private nfc: NfcService
+
   ) {
     this.createForm();
 
@@ -67,9 +68,18 @@ export class NuevoMaterialPage implements OnInit {
 
   }
 
+  public valorZero: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+    const valor = control.value;
+    //console.log('Valor obtenido en el validador: '+valor);
+    if (valor === 0) {
+      return { valorZero: { value: control.value } };
+    }
+    return null;
+  };
+
   createForm(): void {
     this.materialForm = this.fb.group({
-      Id_Material: [0, [Validators.required, valorZeroValidator]],
+      Id_Material: [0, [Validators.required, this.valorZero]],
       Descripcion: ['', [Validators.required]],
       Cantidad_Existente: [0, [Validators.required, valorZeroValidator]],
       Id_Tarjeta_NFC: [0, [Validators.required, valorZeroValidator]]
@@ -106,13 +116,21 @@ export class NuevoMaterialPage implements OnInit {
 
   }
 
-
-
   async presentAlert() {
     const alert = await this.alertController.create({
       header: 'Material Ingresado',
       //subHeader: 'Important message',
       //message: 'Vuelva a iniciar sesión por favor!',
+      buttons: ['OK'],
+    });
+    await alert.present();
+  }
+
+  async materialAlert() {
+    const alert = await this.alertController.create({
+      header: 'Material No Ingresado',
+      subHeader: 'Vuelva a Ingresar la información del Material a Grabar',
+      message: 'Asegurese de utilizar un Id Material que no exista en el Sistema!',
       buttons: ['OK'],
     });
     await alert.present();
@@ -136,6 +154,7 @@ export class NuevoMaterialPage implements OnInit {
         // Puedes pasarle el err en caso de que mandes el mensaje desde el
         console.log('Material no ingresado');
         console.log(err);
+        this.materialAlert();
       }
     );
   }
@@ -151,58 +170,31 @@ export class NuevoMaterialPage implements OnInit {
   }
 
   generarNFC(): void {
-    this.material.Id_Tarjeta_NFC = this.MaterialService.materiales.length + 1;
-    this.materialForm.controls['Id_Tarjeta_NFC'].setValue(this.material.Id_Tarjeta_NFC);
-    this.leerNFC();
+    try {
+      this.nfc.leerNFC().subscribe((etiqueta) => {
+        console.log('Respuesta obtenida en Nuevo Material: '+etiqueta);
+        console.log(etiqueta);
+
+        //this.material.Id_Tarjeta_NFC = this.MaterialService.materiales.length + 1;
+        this.material.Id_Tarjeta_NFC = +etiqueta;
+        this.materialForm.controls['Id_Tarjeta_NFC'].setValue(this.material.Id_Tarjeta_NFC);
+        this.nfc.closeNFC();
+      },
+        (error) => {
+          console.log('Error capturado al leer tarjeta NFC');
+          console.log(error);
+          this.nfc.presentAlert();
+        }
+      );
+    } catch (error) {
+      console.log('Error capturado al suscribirse al observable que obtiene el IdNFC');
+      console.log(error);
+    }
+
   }
 
-  /*leerNFC():void{
-    this.nfc.addNdefListener(() => {
-      console.log('successfully attached ndef listener');
-    }, (err) => {
-      console.log('error attaching ndef listener', err);
-    }).subscribe((event) => {
-      console.log('received ndef message. the tag contains: ', event.tag);
-      console.log('decoded tag id', this.nfc.bytesToHexString(event.tag.id));
-      let message = this.ndef.textRecord('Hello world');
-      this.nfc.share([message]).then(
-        data=>{
-            console.log('Se escribio en la NFC correctamente');
-            console.log(data);
-        }
-        ).catch(
-          error=>{
-            console.log('Sucedio un error al escribir en la NFC');
-            console.log(error);
-        }
-          );
-    });
-  }*/
 
-  leerNFC(): void {
-    let flags = this.nfc.FLAG_READER_NFC_A | this.nfc.FLAG_READER_NFC_V;
-    this.nfc.readerMode(flags).subscribe(
-      tag => {
-        console.log(JSON.stringify(tag));
-        console.log(JSON.stringify(this.nfc.bytesToHexString(tag.id)));
-        console.log(JSON.stringify(tag.ndefMessage));
-        tag.ndefMessage.forEach(mensaje =>{
 
-            console.log(this.nfc.bytesToHexString(mensaje.id));
-            console.log(this.nfc.bytesToHexString(mensaje.payload));
-            console.log(this.nfc.bytesToString(mensaje.payload));
-            console.log(this.nfc.bytesToHexString(mensaje.type));
-            console.log(mensaje.tnf);
-          }
-          );
-        this.nfc.close();
-      }
-      ,
-      err => {
-        console.log('Error reading tag', err);
-      }
 
-    );
-  }
 
 }

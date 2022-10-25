@@ -4,7 +4,7 @@ import { AbstractControl, NG_VALIDATORS, ValidationErrors, Validator, ValidatorF
 
 export const valorZeroValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
   const valor = control.value;
-      console.log('Valor obtenido en el validador: '+valor);
+      //console.log('Valor obtenido en el validador: '+valor);
       if(valor===0){
         return {valorZero:{value: control.value}};
       }

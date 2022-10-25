@@ -18,6 +18,8 @@ import { RegistroService } from './services/proveedores/registro.service';
 import { MaterialService } from './services/proveedores/material.service';
 import { EmpleadoService } from './services/proveedores/empleado.service';
 import { UsuariosService } from './services/proveedores/usuarios.service';
+import { Ndef, NFC } from '@awesome-cordova-plugins/nfc/ngx';
+import { NfcService } from './services/nfc.service';
 
 
 
@@ -38,11 +40,14 @@ import { UsuariosService } from './services/proveedores/usuarios.service';
       useClass: TokenInterceptorService,
       multi: true
     },
+    NFC,
+    Ndef,
     APIRESTService,
     RegistroService,
     MaterialService,
     EmpleadoService,
     UsuariosService,
+    NfcService,
     DatePipe
     ],
   bootstrap: [AppComponent],
