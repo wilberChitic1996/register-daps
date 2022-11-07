@@ -32,7 +32,11 @@ const routes: Routes = [
   {
     path: 'nuevo-material',
     loadChildren: () => import('./nuevo-material/nuevo-material.module').then( m => m.NuevoMaterialPageModule)
+  },  {
+    path: 'actualizar-material',
+    loadChildren: () => import('./actualizar-material/actualizar-material.module').then( m => m.ActualizarMaterialPageModule)
   }
+
 
 
 ];
