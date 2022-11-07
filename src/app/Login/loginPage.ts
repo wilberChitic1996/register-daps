@@ -17,7 +17,7 @@ export class LoginPage implements OnInit{
 
   private url = 'https://api.chucknorris.io/jokes/random'; // URL to web api
 
-  usuario:Usuario={Id_Usuario:0, Usuario:"", Password:"", token:""};
+  usuario:Usuario={Id_Usuario:0, Usuario:"", Password:"", token:"", Rol:""};
 
   constructor(private apirest:APIRESTService, private router:Router
     , private alertController:AlertController) {

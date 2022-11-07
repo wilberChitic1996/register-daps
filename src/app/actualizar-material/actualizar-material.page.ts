@@ -66,7 +66,8 @@ export class ActualizarMaterialPage implements OnInit {
     , private nfc: NfcService
     ,private route:ActivatedRoute
   ) {
-
+    
+    this.apirest.validarRolUsuario();
     let materialId=this.route.snapshot.params['id'];
     console.log('Id Material Recibido: '+materialId);
 

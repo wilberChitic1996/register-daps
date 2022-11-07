@@ -33,8 +33,8 @@ export class APIRESTService {
   /**
    * Url base del servidor donde se encuentran nuestros endpoints
    */
-  //url:string="http://172.24.178.155/";
-  url:string="http://172.22.2.78/";
+  url:string="http://172.24.178.155/";
+  //url:string="http://172.22.2.78/";
 
 
   /**
@@ -52,11 +52,22 @@ export class APIRESTService {
   }
 
 
+
     async presentAlert() {
       const alert = await this.alertController.create({
         header: 'Sesión Caducada',
         //subHeader: 'Important message',
         message: 'Vuelva a iniciar sesión por favor!',
+        buttons: ['OK'],
+      });
+      await alert.present();
+    }
+
+    async rolAlert() {
+      const alert = await this.alertController.create({
+        header: 'Accion No permitida',
+        subHeader: 'Usuario Despachador no puede actualizar o eliminar materiales!!!',
+        message: 'Solicite al administrador los permisos correspondientes para realizar esta acción',
         buttons: ['OK'],
       });
       await alert.present();
@@ -71,6 +82,16 @@ export class APIRESTService {
     getAuthorizationToken():string{
       return 'Bearer ' + this.token;
     }
+
+    validarRolUsuario():Boolean{
+      if(this.usuario.Rol==='Despachador'){
+        this.rolAlert();
+        this.router.navigate(['/menu']);
+        return false;
+      }
+      return true;
+    }
+
 
     login(url:string , usuario: Usuario): Observable<Usuario> {
       url=this.url+url;
@@ -417,6 +438,54 @@ export class APIRESTService {
     }
 
     actualizarMaterial(url:string, material:Material): Observable<Material>{
+      url=this.url+url;
+      if (this.platform.is('hybrid')) {
+
+        const options = {
+          url: url,
+          headers: { 'Content-Type': 'application/json',
+          'Authorization':this.getAuthorizationToken()
+          },
+          data: material,
+        };
+
+        return from(CapacitorHttp.post(options))
+        .pipe(map((response:HttpResponse)=>{
+
+
+          if (response.status === 401) {
+            console.log("Token caducado");
+            this.presentAlert();
+            this.router.navigate(['/login']);
+          }
+
+
+          if((response.status!==200)&&(response.status!==201)){
+            console.log('Material no Actualizado');
+            throw new Error('Material no Actualizado');
+          }
+
+
+          console.log("Logro consumir el restapi nativamente");
+          console.log(response);
+          material=response.data;
+          console.log("Material: "+material.Descripcion);
+          return material;
+        }));
+      }else{
+        return this.http.post<Material>(url, material, this.httpOptions).pipe(
+          catchError(err => {
+              // onError
+              console.log("Error capturado al actualizar el materiale en el servidor");
+              console.log(err);
+              return throwError(err);
+            }
+          )
+        );
+      }
+    }
+
+    eliminarMaterial(url:string, material:Material): Observable<Material>{
       url=this.url+url;
       if (this.platform.is('hybrid')) {
 

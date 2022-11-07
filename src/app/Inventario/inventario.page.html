@@ -27,7 +27,7 @@
             <ion-icon slot="end" name="trash"  ></ion-icon>
             Actualizar
           </ion-item-option>
-          <ion-item-option color="danger">
+          <ion-item-option color="danger" (click)="eliminarMaterial(material.Id_Material)">
             <ion-icon slot="end" name="trash"></ion-icon>
             Delete
           </ion-item-option>
