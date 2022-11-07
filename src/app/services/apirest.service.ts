@@ -359,17 +359,16 @@ export class APIRESTService {
           return material;
         }));
       }else{
-
+        return this.http.post<Material>(url, material, this.httpOptions).pipe(
+          catchError(err => {
+              // onError
+              console.log("Error capturado al enviar materiales al servidor");
+              console.log(err);
+              return throwError(err);
+            }
+          )
+        );
       }
-      return this.http.post<Material>(url, material, this.httpOptions).pipe(
-        catchError(err => {
-            // onError
-            console.log("Error capturado al enviar materiales al servidor");
-            console.log(err);
-            return throwError(err);
-          }
-        )
-      );
     }
 
     enviarNewRegister(url:string, registro:Registro): Observable<Registro>{
@@ -453,17 +452,16 @@ export class APIRESTService {
           return material;
         }));
       }else{
-
+        return this.http.post<Material>(url, material, this.httpOptions).pipe(
+          catchError(err => {
+              // onError
+              console.log("Error capturado al actualizar el materiale en el servidor");
+              console.log(err);
+              return throwError(err);
+            }
+          )
+        );
       }
-      return this.http.post<Material>(url, material, this.httpOptions).pipe(
-        catchError(err => {
-            // onError
-            console.log("Error capturado al actualizar el materiale en el servidor");
-            console.log(err);
-            return throwError(err);
-          }
-        )
-      );
     }
 
 }
