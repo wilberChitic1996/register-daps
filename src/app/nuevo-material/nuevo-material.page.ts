@@ -194,33 +194,6 @@ export class NuevoMaterialPage implements OnInit {
   }
 
 
-  actualizarMaterial(): void {
-    let url = "material/actualizar";
-    this.material = this.materialForm.value;
-    console.log(this.material);
-    this.apirest.actualizarMaterial(url, this.material).subscribe(
-      materiales => {
-        console.log(materiales);
-        this.MaterialService.materiales.forEach(material=>{
-          if(material.Id_Material===this.material.Id_Material){
-            material=this.material;
-          }
-        });
-        this.resetearForm();
-        this.presentAlert();
-        this.router.navigate(['/menu']);
-
-        //Esto de empujar a la lista de Materiales lo hará Soporte
-
-      }, err => {
-        // Puedes pasarle el err en caso de que mandes el mensaje desde el
-        console.log('Material no actualizado');
-        console.log(err);
-        this.materialAlert();
-      }
-    );
-  }
-
 
 
 }

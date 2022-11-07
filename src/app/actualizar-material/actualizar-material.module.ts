@@ -6,15 +6,19 @@ import { IonicModule } from '@ionic/angular';
 
 import { ActualizarMaterialPageRoutingModule } from './actualizar-material-routing.module';
 
+
+import { ReactiveFormsModule } from '@angular/forms';
 import { ActualizarMaterialPage } from './actualizar-material.page';
+import { ZeroValidatorDirective } from '../shared/ValidarZero-Directive';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
+    ReactiveFormsModule,
     ActualizarMaterialPageRoutingModule
   ],
-  declarations: [ActualizarMaterialPage]
+  declarations: [ActualizarMaterialPage, ZeroValidatorDirective]
 })
 export class ActualizarMaterialPageModule {}

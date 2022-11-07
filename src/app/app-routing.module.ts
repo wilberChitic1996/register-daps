@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
@@ -32,8 +33,9 @@ const routes: Routes = [
   {
     path: 'nuevo-material',
     loadChildren: () => import('./nuevo-material/nuevo-material.module').then( m => m.NuevoMaterialPageModule)
-  },  {
-    path: 'actualizar-material',
+  },
+  {
+    path: 'actualizar-material/:id',
     loadChildren: () => import('./actualizar-material/actualizar-material.module').then( m => m.ActualizarMaterialPageModule)
   }
 

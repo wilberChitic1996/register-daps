@@ -11,6 +11,7 @@ import { MaterialService } from '../services/proveedores/material.service';
 export class InventarioPage implements OnInit {
 
 
+  
   filtro:string='';
   materialesBackup:Material[];
   materiales:Material[];
