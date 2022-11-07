@@ -391,6 +391,12 @@ export class APIRESTService {
             this.presentAlert();
             this.router.navigate(['/login']);
           }
+
+          if((response.status!==200)&&(response.status!==201)){
+            console.log('Registro no Ingresado');
+            throw new Error('Registro no Ingresado');
+          }
+
           console.log("Logro consumir el restapi nativamente");
           console.log(response);
           registro=response.data;
@@ -425,11 +431,21 @@ export class APIRESTService {
 
         return from(CapacitorHttp.post(options))
         .pipe(map((response:HttpResponse)=>{
+
+
           if (response.status === 401) {
             console.log("Token caducado");
             this.presentAlert();
             this.router.navigate(['/login']);
           }
+
+
+          if((response.status!==200)&&(response.status!==201)){
+            console.log('Material no Actualizado');
+            throw new Error('Material no Actualizado');
+          }
+
+
           console.log("Logro consumir el restapi nativamente");
           console.log(response);
           material=response.data;
