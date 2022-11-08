@@ -66,10 +66,10 @@ export class ActualizarMaterialPage implements OnInit {
     , private nfc: NfcService
     ,private route:ActivatedRoute
   ) {
-    
+
     this.apirest.validarRolUsuario();
     let materialId=this.route.snapshot.params['id'];
-    console.log('Id Material Recibido: '+materialId);
+    //console.log('Id Material Recibido: '+materialId);
 
     this.createForm(materialId);
   }
@@ -90,7 +90,7 @@ export class ActualizarMaterialPage implements OnInit {
   createForm(materialId:number): void {
     console.log('Id Material Recibido: '+materialId);
     this.MaterialService.materiales.forEach(material=>{
-      console.log('Id Material a comparar: '+material.Id_Material);
+      //console.log('Id Material a comparar: '+material.Id_Material);
       if(material.Id_Material==materialId){
         console.log('Logro encontrar el material: '+materialId);
         this.material=material;
