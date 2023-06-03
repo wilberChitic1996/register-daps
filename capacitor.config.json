@@ -1,6 +1,6 @@
 {
-  "appId": "com.pantaleon.daps",
-  "appName": "DAPS",
+  "appId": "com.pollosdelvalle.AVIGestor",
+  "appName": "AVIGestor",
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "webDir": "www",

@@ -1,7 +1,7 @@
 {
-  "name": "DAPS",
+  "name": "AVIGestor",
   "version": "1.0.0",
-  "author": "Luis Fernando",
+  "author": "Wilber Chitic",
   "homepage": "https://ionicframework.com/",
   "scripts": {
     "ng": "ng",

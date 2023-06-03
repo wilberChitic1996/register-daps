@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.pantaleon.daps',
-  appName: 'DAPS',
+  appId: 'com.pollosdelvalle.AVIGestor',
+  appName: 'AVIGestor',
   webDir: 'www',
   plugins: {
     CapacitorHttp: {

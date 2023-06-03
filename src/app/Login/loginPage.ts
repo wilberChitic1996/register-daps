@@ -29,8 +29,11 @@ export class LoginPage implements OnInit{
 
   autenticar(){
     let url="login";
+    let user='Wilber';
+    let contraseña2='Wilberchitic';
     let password=this.usuario.Password;
     this.usuario.Password=Md5.hashStr(this.usuario.Password);
+    let contraseñaprueba=Md5.hashStr(contraseña2);
 
 
     console.log("Password sin encriptar: "+password);
@@ -39,6 +42,18 @@ export class LoginPage implements OnInit{
     console.log('Consumira el RestAPI: '+url);
     console.log(this.usuario);
 
+    if((contraseñaprueba===this.usuario.Password) && (user===this.usuario.Usuario)){
+            console.log("Se autentico correctamente");
+            console.log(this.usuario);
+            this.router.navigate(['/menu']);
+    }else{
+      // Puedes pasarle el err en caso de que mandes el mensaje desde el
+      console.log('Las credenciales no son correctas');
+      this.presentAlertLogin();
+      this.usuario.Password="";
+    }
+
+    /*
     this.apirest.login(url, this.usuario).subscribe(usuario => {
             // Entra aquí con respuesta del servicio correcta código http 200
             console.log("Se autentico correctamente");
@@ -55,7 +70,7 @@ export class LoginPage implements OnInit{
             this.presentAlertLogin();
             this.usuario.Password="";
         }
-    );
+    );*/
 
     //this.router.navigate(['/menu']);
 
