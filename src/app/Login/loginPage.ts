@@ -30,7 +30,7 @@ export class LoginPage implements OnInit{
   autenticar(){
     let url="login";
     let user='Wilber';
-    let contraseña2='Wilberchitic';
+    let contraseña2='Wilber';
     let password=this.usuario.Password;
     this.usuario.Password=Md5.hashStr(this.usuario.Password);
     let contraseñaprueba=Md5.hashStr(contraseña2);

@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">DAPS</string>
-    <string name="title_activity_main">DAPS</string>
+    <string name="app_name">AVIGestor</string>
+    <string name="title_activity_main">AVIGestor</string>
     <string name="package_name">com.pantaleon.daps</string>
-    <string name="custom_url_scheme">com.pantaleon.daps</string>
+    <string name="custom_url_scheme">com.pantaleon.AVIGestor</string>
 </resources>
